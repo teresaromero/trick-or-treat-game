@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Trick or Treat Game</title>
+</head>
+<body>
+  <header>
+    <h1>Trick or Treat Game</h1>
+    <button id="start-button">Start Game</button>
+  </header>
+  
+  <div id="game-board">
+    <canvas id="canvas" width="900" height="500"></canvas>
+    <div id="control-area">
+      <!-- AREA DE PUNTOS Y VIDAS -->
+      <div id="score-area">
+        <div id="puntos">
+          <!-- SE GENERA LA ZONA DE PUNTOS -->
+        </div>
+        <div id="vidas">
+          <!-- SE GENERA LA ZONA DE VIDAS -->
+        </div>
+      </div>
+      <!-- FIN AREA DE PUNTOS Y VIDAS -->
+
+      <!-- AREA DE BOTONES -->
+      <div id="botones">
+        <!-- SE GENERAN LOS BOTONES POR DOM -->
+      </div>
+      <!-- FIN AREA DE BOTONES -->
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./js/DOM.js"></script>
+  <script type="text/javascript" src="./js/ComponentPumpkin.js"></script>
+  <script type="text/javascript" src="./js/game.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+  
+  
+  
+</body>
+</html>

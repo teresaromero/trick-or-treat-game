@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css?family=Creepster');
+
+
+/* ESTILOS DE LA CABECERA */
+h1 {
+  font-family: 'Creepster', cursive;
+  font-size: 4em;
+}
+
+header {
+  height: 250px;
+  padding: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  
+}
+
+button {
+    border-radius: 20px;
+    color: #000000;
+    font-family: Verdana;
+    font-size: 40px;
+    font-weight: 100;
+    padding: 40px;
+    background-color: #F6AE4F;
+    box-shadow: 1px 1px 20px 0px #000000;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    
+}
+button:hover {
+	background-color:transparent;
+}
+button:active {
+	position:relative;
+	top:1px;
+}
+
+/* ESTILOS DEL TABLERO */
+
+#game-board {
+  margin-left: 80px;
+  margin-right: 80px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
+  /* background: rgba(99, 146, 37, 0.5); */
+}
+
+canvas {
+  background: black;
+}
+
+#control-area {
+  width: 250px;
+  background:black;
+  display:flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: center;
+
+  border-left: dashed 2px orange;
+}
+
+#score-area {
+  width:250px;
+  padding-top: 10px;
+  /* background: rgba(207, 121, 9, 0.5); */
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  font-size: 2em;
+  color: white;
+}
+
+#botones {
+  width:200px;
+  height: 400px;
+  /* background: rgba(207, 121, 9, 0.5); */
+  display: flex;
+  flex-flow: row wrap;
+}
+
+#botones img {
+  width: 96px;
+  height: 96px;
+  padding: 2px;
+}
+
