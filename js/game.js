@@ -1,61 +1,142 @@
 var game;
 var srcPumpArray=["./img/001.png","./img/002.png","./img/003.png","./img/004.png","./img/005.png","./img/006.png","./img/007.png","./img/008.png"];
 
-var flyingP= [];
 
 
 function Game() {
-
   this.canvas= document.getElementById("canvas");
-  this.ctx= canvas.getContext("2d");
-  // this.score
-  this.fps=60;
-  
+  this.ctx= this.canvas.getContext("2d");
+
+  //array con calabazas
+  this.flyingP= [];
+  // indice de la calabaza que se muestra en canvas
+  this.i=0;
+
+  //datos iniciales de vida y puntos
+  this.life=3;
+  this.points=0;
+
+
+  this.outCanvas=false;
+}
+
+Game.prototype.start=function(){
+  var that=this;
+  var r=that.i;
+      that.interval = setInterval(function(){
+      that.flyingP[r].move();
+      that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
+      that.flyingP[r].draw();
+      
+      //SOLUCION CUANDO LA CALABAZA PASA POR EL CANVAS SIN CLICK - RESTA VIDA
+      if(that.flyingP[r].y>that.canvas.height){
+        clearInterval(that.interval);
+        that.life--;
+        document.getElementById("lifeTxt").innerText=that.life;
+        that.flyingP.splice(r,1);
+        that.outCanvas=true;
+        if(that.life<=0){
+          that.gameOver();
+        } else {
+          that.replay();
+        } 
+      }
+      
+    },10);
+}
+
+Game.prototype.replay=function(){
+  if(this.outCanvas==true){
+    this.i = Math.floor(Math.random()*(this.flyingP.length));
+    this.start();
+  }
+}
+
+Game.prototype.checkImg=function(imgDOM){
+  var r=this.i;
+  if(imgDOM==this.flyingP[r].id){
+    this.points++;
+    if(this.points>=8){
+      this.youWin();
+    } else {
+      document.getElementById("scoreTxt").innerText=this.points;
+      this.flyingP.splice(r,1);
+      this.i = Math.floor(Math.random()*(this.flyingP.length));
+      this.start();
+    }
+    
+  } else {
+    this.life--;
+      if(this.life<=0){
+        this.gameOver();
+      } else {
+        document.getElementById("lifeTxt").innerText=this.life;
+        this.flyingP.splice(r,1);
+        this.i = Math.floor(Math.random()*(this.flyingP.length));
+        this.start();
+    } 
+  }
+
 }
 
 Game.prototype.generateDOM=function(){
   var displayArr=randomArray(srcPumpArray);
-  crearScore();
   crearTablaDOM(displayArr);
+  document.getElementById("scoreTxt").innerText=0;
+  document.getElementById("lifeTxt").innerText=3;
 }
 
 Game.prototype.generatePumpkins=function(){
   for(i=0; i<srcPumpArray.length; i++){
     //genera X random de la calabaza
-    var xRam = Math.floor(Math.random()*(850-50)+50);
+    var xRam = Math.floor(Math.random()*(800-100)+100);
     //genera la src random de la calabaza
     var iRam= Math.floor(Math.random()*7);
     var srcRam=srcPumpArray[iRam];
    
-    flyingP.push(new ComponentPumpkin(this));
-    flyingP[i].x=xRam;
-    flyingP[i].img.src=srcRam;
-    // console.log(flyingP[i].img.src);
-    // console.log(game);
+    this.flyingP.push(new ComponentPumpkin(this));
+    this.flyingP[i].x=xRam;
+    this.flyingP[i].img.src=srcRam;
+    this.flyingP[i].id=srcRam;
+  
   }
-  // se genera un array con las calabazas que van a caer en el canvas
-}
-
-
-Game.prototype.printPumpkin=function(i){
-  flyingP[i].move();
-  this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-  flyingP[i].draw();
-
-}
-
-Game.prototype.checkClick = function() {
-  // si SRC DE DOM = SRC DE CANVAS -- SUMA PUNTO Y ELIMINA DE CANVAS
-  // si NO -- resta VIDA y ELIMINA DE CANVAS 
-}
-
-Game.prototype.clear =function() {
-  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 }
 
 Game.prototype.gameOver = function() {
-
+  console.log("pierde");
+  this.ctx.font = "150px 'Creepster'";
+  this.ctx.fillStyle = "white";
+  this.ctx.textAlign = "center";
+  this.ctx.fillText("Game Over", this.canvas.width/2, this.canvas.height/2); 
 }
+
+Game.prototype.youWin = function() {
+  console.log("gana");
+  this.ctx.font = "150px 'Creepster'";
+  this.ctx.fillStyle = "white";
+  this.ctx.textAlign = "center";
+  this.ctx.fillText("You Win!!", this.canvas.width/2, this.canvas.height/2); 
+}
+
+function randomArray(arr){
+  var m = arr.length, t, i;
+  while (m) {
+    i = Math.floor(Math.random() * m--);
+    t = arr[m];
+    arr[m] = arr[i];
+    arr[i] = t;
+  }
+  return arr;
+}
+
+
+function crearTablaDOM(arr){
+  for (i=0; i < arr.length; i++) {
+    var img=document.getElementById("item"+i);
+    img.src=arr[i];
+  }
+}
+
 
 // var lastTime = 0;
 // var delta = 0;

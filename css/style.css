@@ -18,6 +18,10 @@ header {
   
 }
 
+.hide{
+  visibility:hidden;
+}
+
 button {
     border-radius: 20px;
     color: #000000;
@@ -76,8 +80,14 @@ canvas {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
-  font-size: 2em;
+  font-family: 'Creepster', cursive;
+  font-size: 3em;
   color: white;
+}
+
+#score-area img {
+  width: 40px;
+  height: 40px;
 }
 
 #botones {

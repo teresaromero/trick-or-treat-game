@@ -15,29 +15,37 @@
     <button id="start-button">Start Game</button>
   </header>
   
-  <div id="game-board">
+  <div class="hide" id="game-board">
     <canvas id="canvas" width="900" height="500"></canvas>
-    <div id="control-area">
-      <!-- AREA DE PUNTOS Y VIDAS -->
+    <div  id="control-area">
       <div id="score-area">
         <div id="puntos">
-          <!-- SE GENERA LA ZONA DE PUNTOS -->
+          <span id="scoreTxt">10 </span>
+          <img src="./img/001-star.svg">
         </div>
         <div id="vidas">
-          <!-- SE GENERA LA ZONA DE VIDAS -->
+            <span id="lifeTxt">3 </span>
+            <img src="./img/002-like.svg">
         </div>
       </div>
       <!-- FIN AREA DE PUNTOS Y VIDAS -->
 
       <!-- AREA DE BOTONES -->
       <div id="botones">
-        <!-- SE GENERAN LOS BOTONES POR DOM -->
+        <img id="item0" src="">
+        <img id="item1" src="">
+        <img id="item2" src="">
+        <img id="item3" src="">
+        <img id="item4" src="">
+        <img id="item5" src="">
+        <img id="item6" src="">
+        <img id="item7" src="">
       </div>
       <!-- FIN AREA DE BOTONES -->
     </div>
   </div>
 
-  <script type="text/javascript" src="./js/DOM.js"></script>
+  
   <script type="text/javascript" src="./js/ComponentPumpkin.js"></script>
   <script type="text/javascript" src="./js/game.js"></script>
   <script type="text/javascript" src="./js/main.js"></script>
