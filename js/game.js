@@ -7,12 +7,7 @@ function Game() {
   this.canvas= document.getElementById("canvas");
   this.ctx= this.canvas.getContext("2d");
 
-  //array con calabazas
-  this.flyingP= [];
-  // indice de la calabaza que se muestra en canvas
-  this.i=0;
-
-  //datos iniciales de vida y puntos
+  //datos iniciales de puntos y vidas
   this.life=3;
   this.points=0;
 
@@ -22,57 +17,51 @@ function Game() {
 
 Game.prototype.start=function(){
   var that=this;
-  var r=that.i;
       that.interval = setInterval(function(){
-      that.flyingP[r].move();
+      that.flyingP.move();
       that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
-      that.flyingP[r].draw();
+      that.flyingP.draw();
       
       //SOLUCION CUANDO LA CALABAZA PASA POR EL CANVAS SIN CLICK - RESTA VIDA
-      if(that.flyingP[r].y>that.canvas.height){
-        clearInterval(that.interval);
+      if(that.flyingP.y>that.canvas.height){
         that.life--;
         document.getElementById("lifeTxt").innerText=that.life;
-        that.flyingP.splice(r,1);
-        that.outCanvas=true;
         if(that.life<=0){
+          clearInterval(that.interval);
           that.gameOver();
         } else {
-          that.replay();
+          clearInterval(that.interval);
+          that.generatePumpkin();
+          that.start();
         } 
       }
       
-    },10);
+    },30);
 }
 
-Game.prototype.replay=function(){
-  if(this.outCanvas==true){
-    this.i = Math.floor(Math.random()*(this.flyingP.length));
-    this.start();
-  }
-}
 
 Game.prototype.checkImg=function(imgDOM){
-  var r=this.i;
-  if(imgDOM==this.flyingP[r].id){
+  if(imgDOM==this.flyingP.id){
     this.points++;
+    clearInterval(this.interval);
     if(this.points>=8){
+      document.getElementById("scoreTxt").innerText=this.points;
       this.youWin();
     } else {
       document.getElementById("scoreTxt").innerText=this.points;
-      this.flyingP.splice(r,1);
-      this.i = Math.floor(Math.random()*(this.flyingP.length));
+      this.generatePumpkin();
       this.start();
     }
     
   } else {
     this.life--;
+    clearInterval(this.interval);
       if(this.life<=0){
+        document.getElementById("lifeTxt").innerText=this.life;
         this.gameOver();
       } else {
         document.getElementById("lifeTxt").innerText=this.life;
-        this.flyingP.splice(r,1);
-        this.i = Math.floor(Math.random()*(this.flyingP.length));
+        this.generatePumpkin();
         this.start();
     } 
   }
@@ -86,24 +75,22 @@ Game.prototype.generateDOM=function(){
   document.getElementById("lifeTxt").innerText=3;
 }
 
-Game.prototype.generatePumpkins=function(){
-  for(i=0; i<srcPumpArray.length; i++){
+Game.prototype.generatePumpkin=function(){
+
     //genera X random de la calabaza
     var xRam = Math.floor(Math.random()*(800-100)+100);
     //genera la src random de la calabaza
     var iRam= Math.floor(Math.random()*7);
     var srcRam=srcPumpArray[iRam];
-   
-    this.flyingP.push(new ComponentPumpkin(this));
-    this.flyingP[i].x=xRam;
-    this.flyingP[i].img.src=srcRam;
-    this.flyingP[i].id=srcRam;
-  
-  }
+   //genera calabaza que aparece en canvas
+    this.flyingP=new ComponentPumpkin(this);
+    this.flyingP.x=xRam;
+    this.flyingP.img.src=srcRam;
+    this.flyingP.id=srcRam;
+
 }
 
 Game.prototype.gameOver = function() {
-  console.log("pierde");
   this.ctx.font = "150px 'Creepster'";
   this.ctx.fillStyle = "white";
   this.ctx.textAlign = "center";
@@ -111,7 +98,6 @@ Game.prototype.gameOver = function() {
 }
 
 Game.prototype.youWin = function() {
-  console.log("gana");
   this.ctx.font = "150px 'Creepster'";
   this.ctx.fillStyle = "white";
   this.ctx.textAlign = "center";
@@ -129,7 +115,6 @@ function randomArray(arr){
   return arr;
 }
 
-
 function crearTablaDOM(arr){
   for (i=0; i < arr.length; i++) {
     var img=document.getElementById("item"+i);
@@ -137,18 +122,5 @@ function crearTablaDOM(arr){
   }
 }
 
-
-// var lastTime = 0;
-// var delta = 0;
-// function update(time) {
-//   delta = time - lastTime;
-//   lastTime = time;
-//   game.fps = 1000 / delta;
-//   game.clear();
-//   game.drawAll();
-//   game.moveAll();
-//   game.checkColisions();
-//   game.id = requestAnimationFrame(update);
-// }
 
 
