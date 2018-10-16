@@ -1,15 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Creepster');
 
-
+body {
+  background: black;
+}
 /* ESTILOS DE LA CABECERA */
 h1 {
   font-family: 'Creepster', cursive;
   font-size: 4em;
+  color: #f27503;
+  text-shadow: 5px 5px 10px #68aa00;
+  letter-spacing: 5px;
+  
 }
 
 header {
-  height: 250px;
-  padding: 10px;
+  height: 200px;
+  padding-bottom: 10px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -23,21 +29,17 @@ header {
 }
 
 button {
-    border-radius: 20px;
+    border-radius: 60px;
+    border-color: #f27503;
     color: #000000;
-    font-family: Verdana;
-    font-size: 40px;
-    font-weight: 100;
-    padding: 40px;
-    background-color: #F6AE4F;
-    box-shadow: 1px 1px 20px 0px #000000;
+    font-family: 'Creepster', cursive;
+    font-size: 30px;
+    background-color: #f27503;
     text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
     
 }
 button:hover {
-	background-color:transparent;
+	color: #68aa00;
 }
 button:active {
 	position:relative;
@@ -70,7 +72,7 @@ canvas {
   align-content: stretch;
   align-items: center;
 
-  border-left: dashed 2px orange;
+  border-left: dashed 2px #f27503;
 }
 
 #score-area {

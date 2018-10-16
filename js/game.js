@@ -11,6 +11,8 @@ function Game() {
   this.life=3;
   this.points=0;
 
+  this.speed=10;
+
 
   this.outCanvas=false;
 }
@@ -29,6 +31,8 @@ Game.prototype.start=function(){
         if(that.life<=0){
           clearInterval(that.interval);
           that.gameOver();
+          document.getElementById("start-button").disabled=false;
+          document.getElementById("start-button").innerText="Play Again";
         } else {
           clearInterval(that.interval);
           that.generatePumpkin();
@@ -36,7 +40,7 @@ Game.prototype.start=function(){
         } 
       }
       
-    },30);
+    },that.speed);
 }
 
 
@@ -59,6 +63,8 @@ Game.prototype.checkImg=function(imgDOM){
       if(this.life<=0){
         document.getElementById("lifeTxt").innerText=this.life;
         this.gameOver();
+        document.getElementById("start-button").disabled=false;
+        document.getElementById("start-button").innerText="Play Again";
       } else {
         document.getElementById("lifeTxt").innerText=this.life;
         this.generatePumpkin();

@@ -7,7 +7,7 @@ function ComponentPumpkin(game) {
   this.width = 96;
   this.height = 96;
   this.x=0;
-  this.y=0;
+  this.y=-96;
   this.gravity = 1;
   }
   //update
