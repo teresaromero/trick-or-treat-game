@@ -11,9 +11,10 @@ window.onload = function() {
     document.getElementById("start-button").disabled=true;
     game=new Game();
     game.generateDOM();
-    game.generatePumpkin();
 
-    //sale la primera calabaza
+    //primera iteracion
+
+    game.generatePumpkin();
     game.start();
   
     document.getElementById("botones").onclick=function(e){
