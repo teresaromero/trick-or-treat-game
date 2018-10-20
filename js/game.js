@@ -176,12 +176,14 @@ Game.prototype.checkImg=function(imgDOM){
 }
 
 Game.prototype.gameOver = function() {
+  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.font = "150px 'Creepster'";
   this.ctx.fillStyle = "white";
   this.ctx.textAlign = "center";
   this.ctx.fillText("Game Over", this.canvas.width/2, this.canvas.height/2); 
   document.getElementById("start-button").classList.add("hide");
-  document.getElementById("replay-button").classList.toggle("hide");
+  document.getElementById("replay-button").classList.remove("hide");
+  document.getElementById("botones").onclick=false;
 }
 
 Game.prototype.youWin = function() {

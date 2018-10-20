@@ -2,19 +2,16 @@ window.onload = function() {
   var game;
   document.getElementById("start-button").onclick = function() {
     document.getElementById("game-board").classList.toggle("hide"); 
+    document.getElementById("start-button").classList.add("hide");
     startGame();
   };
 
   document.getElementById("replay-button").onclick = function() {  
+    document.getElementById("replay-button").classList.add("hide");
+
     startGame();
   };
 
-  
-  
-  
-  
-  
-  
   
   function startGame(){
     document.getElementById("start-button").disabled=true;
