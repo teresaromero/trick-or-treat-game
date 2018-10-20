@@ -1,10 +1,19 @@
 window.onload = function() {
   var game;
   document.getElementById("start-button").onclick = function() {
-    document.getElementById("game-board").classList.toggle("hide");  
+    document.getElementById("game-board").classList.toggle("hide"); 
     startGame();
   };
 
+  document.getElementById("replay-button").onclick = function() {  
+    startGame();
+  };
+
+  
+  
+  
+  
+  
   
   
   function startGame(){
@@ -16,20 +25,24 @@ window.onload = function() {
 
     game.generatePumpkin();
     game.start();
+
+   
+      document.getElementById("botones").onclick=function(e){
+        //cuando click en calabaza obtengo su src para comparar
+        event=e;
+        var tarjetElement=event.target;
+        if(tarjetElement.tagName=="IMG"){
   
-    document.getElementById("botones").onclick=function(e){
-      //cuando click en calabaza obtengo su src para comparar
-      event=e;
-      var tarjetElement=event.target;
-      if(tarjetElement.tagName=="IMG"){
-
-        //se guarda la src del elemento clickado
-        var imgDOM=tarjetElement.getAttribute("src");
-
-        //comparamos src de click con id de canvas
-        game.checkImg(imgDOM);
+          //se guarda la src del elemento clickado
+          var imgDOM=tarjetElement.getAttribute("src");
+  
+          //comparamos src de click con id de canvas
+          
+          game.checkImg(imgDOM);
+        }
       }
-    }
+
+    
 
   }
 

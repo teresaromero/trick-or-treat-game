@@ -13,8 +13,11 @@ function Game() {
   //array que almacena las calabazas elegidas random de la fuente srcPumpArray
   this.displayPumps=[];
   this.falsePumps=[];
+
+ 
 }
 
+//genera la tabla con botones para poder jugar
 Game.prototype.generateDOM=function(){
   var randomArr=randomArray(srcPumpArray);
   for (i=0;i<8;i++){
@@ -25,6 +28,8 @@ Game.prototype.generateDOM=function(){
   document.getElementById("lifeTxt").innerText=this.life;
 }
 
+
+//genera los objetos falsos
 Game.prototype.generateFalsePump=function(){
   var randomArr=randomArray(srcFauxArray);
   
@@ -52,50 +57,55 @@ Game.prototype.generateFalsePump=function(){
     this.flyingF.y=-10;
 
     if (this.points<=20){
-      this.flyingF.gravity=1.5;
-    } else {
       this.flyingF.gravity=2;
+    } else {
+      this.flyingF.gravity=2.5;
     }
     
 }
 
+
+//genera una calabaza cada vez que se le llama
 Game.prototype.generatePumpkin=function(){
   
-  //genera X random de la calabaza
   var xRam = Math.floor(Math.random()*(800-100)+100);
-  //genera la src random de la calabaza
   var iRam= Math.floor(Math.random()*7);
   var srcRam=this.displayPumps[iRam];
- //genera calabaza que aparece en canvas
+ 
   this.flyingP=new Component(this);
   this.flyingP.x=xRam;
   this.flyingP.img.src=srcRam;
   this.flyingP.id=srcRam;
+
   
+ //cambio de velocidad inicial segun niveles
   if (this.points>20){
-  this.flyingP.gravity=2;
+    this.flyingP.gravity=3;
+  } else if (this.points>30){
+      this.flyingP.gravity=3.5;
   }
 
 }
 
+
+// dibuja sobre el canvas los objetos
 Game.prototype.start=function(){
   var that=this;
       that.interval = setInterval(function(){
       
+        //nivel 0 - solo salen calabazas
         if(that.points<=10){
-
           that.flyingP.move();
           that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
           that.flyingP.draw();
-
+          
         } else {
-
+        //nivel 1 y 2 - salen calabazas y objetos
           that.flyingF.move();
           that.flyingP.move();
           that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
           that.flyingP.draw();
           that.flyingF.draw();
-
         }
       
       //SOLUCION CUANDO LA CALABAZA PASA POR EL CANVAS SIN CLICK - RESTA VIDA
@@ -120,10 +130,10 @@ Game.prototype.start=function(){
         } 
       }
       
-    },10);
+    },8);
 }
 
-
+//comprueba que la calabaza coincide y arranca juego de nuevo cuando click
 Game.prototype.checkImg=function(imgDOM){
   if(imgDOM==this.flyingP.id){
     this.points++;
@@ -144,10 +154,10 @@ Game.prototype.checkImg=function(imgDOM){
     this.life--;
     clearInterval(this.interval);
       if(this.life<=0){
+        clearInterval(this.interval);
         document.getElementById("lifeTxt").innerText=this.life;
         this.gameOver();
-        document.getElementById("start-button").disabled=false;
-        document.getElementById("start-button").innerText="Play Again";
+        
       } else {
         document.getElementById("lifeTxt").innerText=this.life;
         if(this.points<=10){
@@ -170,6 +180,8 @@ Game.prototype.gameOver = function() {
   this.ctx.fillStyle = "white";
   this.ctx.textAlign = "center";
   this.ctx.fillText("Game Over", this.canvas.width/2, this.canvas.height/2); 
+  document.getElementById("start-button").classList.add("hide");
+  document.getElementById("replay-button").classList.toggle("hide");
 }
 
 Game.prototype.youWin = function() {
@@ -179,13 +191,6 @@ Game.prototype.youWin = function() {
   this.ctx.fillText("You Win!!", this.canvas.width/2, this.canvas.height/2); 
 }
 
-
-Game.prototype.levelUp=function(){
-  this.ctx.font = "150px 'Creepster'";
-  this.ctx.fillStyle = "white";
-  this.ctx.textAlign = "center";
-  this.ctx.fillText("Level up!!", this.canvas.width/2, this.canvas.height/2); 
-}
 
 function randomArray(arr){
   var m = arr.length, t, i;

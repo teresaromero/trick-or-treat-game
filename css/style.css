@@ -1,31 +1,44 @@
 @import url('https://fonts.googleapis.com/css?family=Creepster');
 
+
 body {
-  background: black;
+  margin: 0 auto;
+  background:black;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  align-content: center;
+
 }
-/* ESTILOS DE LA CABECERA */
+/* -----ESTILOS DE CABECERA----- */
+header {
+  /* background:rgba(85, 93, 206, 0.5); */
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.hide{
+  visibility: hidden;
+}
+
 h1 {
+  /* background:rgba(85, 206, 101, 0.5); */
   font-family: 'Creepster', cursive;
   font-size: 4em;
   color: #f27503;
   text-shadow: 5px 5px 10px #68aa00;
   letter-spacing: 5px;
-  
+  text-align: center;
 }
 
-header {
-  height: 200px;
-  padding-bottom: 10px;
-  display: flex;
-  flex-flow: column nowrap;
+#button-control{
+  display:flex;
+  flex-flow: row nowrap;
   justify-content: center;
-  align-content: center;
-  align-items: center;
-  
-}
-
-.hide{
-  visibility:hidden;
 }
 
 button {
@@ -36,27 +49,29 @@ button {
     font-size: 30px;
     background-color: #f27503;
     text-decoration: none;
-    
+    align-self: center;
 }
+
 button:hover {
 	color: #68aa00;
 }
+
 button:active {
 	position:relative;
 	top:1px;
 }
 
-/* ESTILOS DEL TABLERO */
+/* -----FIN ESTILOS DE CABECERA----- */
+
+/* -----ESTILOS DE GAME AREA----- */
 
 #game-board {
-  margin-left: 80px;
-  margin-right: 80px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
-  /* background: rgba(99, 146, 37, 0.5); */
+  /* background: rgba(218, 22, 22, 0.5); */
 }
 
 canvas {
@@ -71,7 +86,6 @@ canvas {
   justify-content: space-around;
   align-content: stretch;
   align-items: center;
-
   border-left: dashed 2px #f27503;
 }
 
@@ -106,3 +120,21 @@ canvas {
   padding: 2px;
 }
 
+/* ----- FIN ESTILOS DE GAME AREA----- */
+
+/* -----ESTILOS DE FOOTER----- */
+
+footer {
+  display:flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  color:#f27503;
+  font-size: 0.8em;
+}
+
+footer a {
+  color:#f27503;
+}
+
+/* -----FIN ESTILOS DE FOOTER----- */

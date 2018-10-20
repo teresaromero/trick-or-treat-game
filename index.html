@@ -5,18 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   
-  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/style.css">
   <title>Trick or Treat Game</title>
 </head>
 <body>
   <header>
     <h1>Trick or Treat Game</h1>
-    <button id="start-button">Start Game</button>
+    <div id="button-control">
+      <button id="start-button">Start Game</button>
+      <button class="hide" id="replay-button">Play Again</button>
+    </div>
+    
   </header>
   
   <div class="hide" id="game-board">
-    <canvas id="canvas" width="900" height="500"></canvas>
+    <div class="canvas">
+        <canvas id="canvas" width="900" height="500"></canvas>
+    </div>
     <div  id="control-area">
       <div id="score-area">
         <div id="puntos">
@@ -29,6 +35,12 @@
         </div>
       </div>
       <!-- FIN AREA DE PUNTOS Y VIDAS -->
+      <!-- AREA DE PROGRESO -->
+      <div id="progreso">
+
+
+      </div>
+      <!-- FIN AREA DE PROGRESO -->
 
       <!-- AREA DE BOTONES -->
       <div id="botones">
@@ -45,8 +57,16 @@
     </div>
   </div>
 
+  <footer>
+    <span><i class="fas fa-hat-wizard"></i> Coded by ©<a href="https://github.com/tromerodev">Teresa Romero</a></span>
+    <span>Credits:</span>
+    <span>Pumpkin Icons desing made by <a href="https://www.flaticon.com/authors/mavadee">Mavadee</a> from <a href="http://www.flaticon.com">Flaticon</a></span>
+    <span>Misc Objects Icons desing made by <a href="https://www.flaticon.com/authors/good-ware">Good Ware</a> from <a href="http://www.flaticon.com">Flaticon</a></span>
+    <span>Life and Score Icons desing made by <a href="https://www.flaticon.com/authors/smashicons">Smashicons</a> from <a href="http://www.flaticon.com">Flaticon</a></span>
+  </footer>
+
   
-  <script type="text/javascript" src="./js/ComponentPumpkin.js"></script>
+  <script type="text/javascript" src="./js/Component.js"></script>
   <script type="text/javascript" src="./js/game.js"></script>
   <script type="text/javascript" src="./js/main.js"></script>
   
