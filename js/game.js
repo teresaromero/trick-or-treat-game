@@ -14,7 +14,9 @@ function Game() {
   this.displayPumps=[];
   this.falsePumps=[];
 
- this.updateProgressBar();
+ for (i=0;i<5;i++){
+  document.getElementsByTagName("progress")[i].value=0;
+ }
 }
 
 //genera la tabla con botones para poder jugar
@@ -53,13 +55,15 @@ Game.prototype.generateFalsePump=function(){
     this.flyingF.img.src=srcRam;
     this.flyingF.id=srcRam;
 
-    //distancia en Y relativa
+    //distancia en Y relativa entre objeto y calabaza
     this.flyingF.y=-10;
-
-    if (this.points<=20){
+    
+    
+    //cambio de velocidad en NIVEL 3 Y 4
+    if (this.points>30){
       this.flyingF.gravity=2;
-    } else {
-      this.flyingF.gravity=2.5;
+    } else if( this.points>40 && this.points<=50){
+      this.flyingF.gravity=4;
     }
     
 }
@@ -68,21 +72,21 @@ Game.prototype.generateFalsePump=function(){
 //genera una calabaza cada vez que se le llama
 Game.prototype.generatePumpkin=function(){
   
-  var xRam = Math.floor(Math.random()*(800-100)+100);
+  this.xRamP = Math.floor(Math.random()*(800-100)+100);
   var iRam= Math.floor(Math.random()*7);
   var srcRam=this.displayPumps[iRam];
  
   this.flyingP=new Component(this);
-  this.flyingP.x=xRam;
+  this.flyingP.x=this.xRamP;
   this.flyingP.img.src=srcRam;
   this.flyingP.id=srcRam;
 
   
- //cambio de velocidad inicial segun niveles
-  if (this.points>20){
-    this.flyingP.gravity=3;
-  } else if (this.points>30){
-      this.flyingP.gravity=3.5;
+ //cambio de velocidad en NIVEL 3 Y 4
+ if (this.points>30){
+  this.flyingP.gravity=2;
+  } else if( this.points>40 && this.points<=50){
+  this.flyingP.gravity=4;
   }
 
 }
@@ -92,20 +96,23 @@ Game.prototype.generatePumpkin=function(){
 Game.prototype.start=function(){
   var that=this;
       that.interval = setInterval(function(){
-      
+        
         //nivel 0 - solo salen calabazas
         if(that.points<=10){
           that.flyingP.move();
           that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
           that.flyingP.draw();
           
-        } else {
-        //nivel 1 y 2 - salen calabazas y objetos
+        } else if(that.points<50){
+        //NIVEL 1-2-3-4 SALEN OBJETOS Y CALABAZAS
           that.flyingF.move();
           that.flyingP.move();
           that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
           that.flyingP.draw();
           that.flyingF.draw();
+        } else {
+          clearInterval(that.interval);
+          that.youWin();
         }
       
       //SOLUCION CUANDO LA CALABAZA PASA POR EL CANVAS SIN CLICK - RESTA VIDA
@@ -179,7 +186,7 @@ Game.prototype.checkImg=function(imgDOM){
 Game.prototype.gameOver = function() {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.font = "150px 'Creepster'";
-  this.ctx.fillStyle = "white";
+  this.ctx.fillStyle = "#f27503";
   this.ctx.textAlign = "center";
   this.ctx.fillText("Game Over", this.canvas.width/2, this.canvas.height/2); 
   document.getElementById("start-button").classList.add("hideBlock");
@@ -188,10 +195,14 @@ Game.prototype.gameOver = function() {
 }
 
 Game.prototype.youWin = function() {
+  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.font = "150px 'Creepster'";
-  this.ctx.fillStyle = "white";
+  this.ctx.fillStyle = "#f27503";
   this.ctx.textAlign = "center";
-  this.ctx.fillText("You Win!!", this.canvas.width/2, this.canvas.height/2); 
+  this.ctx.fillText("You Win!!", this.canvas.width/2, this.canvas.height/2);
+  document.getElementById("start-button").classList.add("hideBlock");
+  document.getElementById("replay-button").classList.remove("hideBlock");
+  document.getElementById("botones").onclick=false;
 }
 
 Game.prototype.updateProgressBar=function(){
