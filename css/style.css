@@ -2,8 +2,11 @@
 
 
 body {
+  height: 950px;
   margin: 0 auto;
-  background:black;
+  background-image: url("../img/209-01.jpg");
+  background-repeat: repeat;
+  background-size: cover;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
@@ -14,11 +17,13 @@ body {
 /* -----ESTILOS DE CABECERA----- */
 header {
   /* background:rgba(85, 93, 206, 0.5); */
+  height: 230px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
   align-items: stretch;
   align-content: stretch;
+  padding-bottom: 10px;
 }
 
 .hide{
@@ -30,6 +35,7 @@ header {
 }
 
 h1 {
+  height: 75px;
   /* background:rgba(85, 206, 101, 0.5); */
   font-family: 'Creepster', cursive;
   font-size: 4em;
@@ -40,6 +46,7 @@ h1 {
 }
 
 #button-control{
+  height:50px ;
   display:flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -71,12 +78,12 @@ button:active {
 /* -----ESTILOS DE GAME AREA----- */
 
 #game-board {
+  height: 500px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: stretch;
   align-content: stretch;
-  /* background: rgba(218, 22, 22, 0.5); */
 }
 
 canvas {
