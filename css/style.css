@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Creepster');
+@import url('https://fonts.googleapis.com/css?family=Creepster|Open+Sans');
 
 
 body {
@@ -25,6 +25,10 @@ header {
   visibility: hidden;
 }
 
+.hideBlock{
+  display:none;
+}
+
 h1 {
   /* background:rgba(85, 206, 101, 0.5); */
   font-family: 'Creepster', cursive;
@@ -42,6 +46,7 @@ h1 {
 }
 
 button {
+    display:block;
     border-radius: 60px;
     border-color: #f27503;
     color: #000000;
@@ -106,12 +111,46 @@ canvas {
   height: 40px;
 }
 
+#progreso {
+  display:flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#progreso img {
+  border-radius: 50%;
+  background: grey;
+  padding: 2.5px;
+}
+
+progress {
+  width: 30px;
+  background-color: #f27503;
+  border: 0;
+  height: 10px;
+  border-radius: 30px;
+}
+
+
+progress::-webkit-progress-bar {
+  background-color: grey;
+}
+progress::-webkit-progress-value {
+  background-color: #f27503;
+}
+
+progress::-moz-progress-bar {
+  background-color: #f27503;
+}
+
 #botones {
-  width:200px;
+  width:250px;
   height: 400px;
   /* background: rgba(207, 121, 9, 0.5); */
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
 }
 
 #botones img {
@@ -131,6 +170,7 @@ footer {
   align-items: center;
   color:#f27503;
   font-size: 0.8em;
+  font-family: 'Open Sans', sans-serif;
 }
 
 footer a {

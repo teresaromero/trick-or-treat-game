@@ -14,7 +14,7 @@ function Game() {
   this.displayPumps=[];
   this.falsePumps=[];
 
- 
+ this.updateProgressBar();
 }
 
 //genera la tabla con botones para poder jugar
@@ -137,6 +137,7 @@ Game.prototype.start=function(){
 Game.prototype.checkImg=function(imgDOM){
   if(imgDOM==this.flyingP.id){
     this.points++;
+    this.updateProgressBar();
     document.getElementById("scoreTxt").innerText=this.points;
     
     if(this.points<=10){
@@ -181,8 +182,8 @@ Game.prototype.gameOver = function() {
   this.ctx.fillStyle = "white";
   this.ctx.textAlign = "center";
   this.ctx.fillText("Game Over", this.canvas.width/2, this.canvas.height/2); 
-  document.getElementById("start-button").classList.add("hide");
-  document.getElementById("replay-button").classList.remove("hide");
+  document.getElementById("start-button").classList.add("hideBlock");
+  document.getElementById("replay-button").classList.remove("hideBlock");
   document.getElementById("botones").onclick=false;
 }
 
@@ -193,6 +194,22 @@ Game.prototype.youWin = function() {
   this.ctx.fillText("You Win!!", this.canvas.width/2, this.canvas.height/2); 
 }
 
+Game.prototype.updateProgressBar=function(){
+
+  if(this.points<=10){
+    document.getElementById("progress0-bar").value=this.points;
+  } else if(this.points<=20 && this.points>10) {
+    document.getElementById("progress1-bar").value=this.points - 10;
+  } else if(this.points<=30 && this.points>20) {
+    document.getElementById("progress2-bar").value=this.points - 20;
+  } else if(this.points<=40 && this.points>30) {
+    document.getElementById("progress3-bar").value=this.points - 30;
+  } else {
+    document.getElementById("progress4-bar").value=this.points - 40;
+  }
+
+  
+}
 
 function randomArray(arr){
   var m = arr.length, t, i;
@@ -211,6 +228,8 @@ function crearTablaDOM(arr){
     img.src=arr[i];
   }
 }
+
+
 
 
 
