@@ -14,6 +14,15 @@ function Game() {
   this.displayPumps=[];
   this.falsePumps=[];
 
+  //audios
+  this.audioError=new Audio("./sound/error.mp3");
+  this.audioLevelUp=new Audio("./sound/level-up.mp3");
+  this.audioGame=new Audio("./sound/audioGame.mp3");
+  this.audioTryAgain=new Audio("./sound/try-again.mp3");
+  this.audioPunto=new Audio("./sound/punto.mp3");
+  this.audioWin=new Audio("./sound/you-win.mp3");
+
+ //inicializar a 0 las barras de progreso
  for (i=0;i<5;i++){
   document.getElementsByTagName("progress")[i].value=0;
  }
@@ -118,6 +127,7 @@ Game.prototype.start=function(){
       //SOLUCION CUANDO LA CALABAZA PASA POR EL CANVAS SIN CLICK - RESTA VIDA
       if(that.flyingP.y>that.canvas.height){
         that.life--;
+        that.audioError.play();
         document.getElementById("lifeTxt").innerText=that.life;
         if(that.life<=0){
           clearInterval(that.interval);
@@ -144,6 +154,7 @@ Game.prototype.start=function(){
 Game.prototype.checkImg=function(imgDOM){
   if(imgDOM==this.flyingP.id){
     this.points++;
+    this.audioPunto.play();
     this.updateProgressBar();
     document.getElementById("scoreTxt").innerText=this.points;
     
@@ -160,6 +171,7 @@ Game.prototype.checkImg=function(imgDOM){
 
   } else {
     this.life--;
+    this.audioError.play(); 
     clearInterval(this.interval);
       if(this.life<=0){
         clearInterval(this.interval);
@@ -184,6 +196,8 @@ Game.prototype.checkImg=function(imgDOM){
 }
 
 Game.prototype.gameOver = function() {
+  this.audioGame.pause();
+  this.audioTryAgain.play();
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.font = "150px 'Creepster'";
   this.ctx.fillStyle = "#f27503";
@@ -195,6 +209,8 @@ Game.prototype.gameOver = function() {
 }
 
 Game.prototype.youWin = function() {
+  this.audioGame.pause();
+  this.audioWin.play();
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.font = "150px 'Creepster'";
   this.ctx.fillStyle = "#f27503";
@@ -206,6 +222,10 @@ Game.prototype.youWin = function() {
 }
 
 Game.prototype.updateProgressBar=function(){
+
+  if(this.points===10 || this.points===20 || this.points===30 || this.points===40) {
+    this.audioLevelUp.play();
+  }
 
   if(this.points<=10){
     document.getElementById("progress0-bar").value=this.points;

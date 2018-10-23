@@ -1,5 +1,7 @@
 window.onload = function() {
   var game;
+  
+
   document.getElementById("start-button").onclick = function() {
     document.getElementById("game-board").classList.toggle("hide"); 
     document.getElementById("start-button").classList.add("hideBlock");
@@ -14,8 +16,11 @@ window.onload = function() {
 
   
   function startGame(){
+    
+
     document.getElementById("start-button").disabled=true;
     game=new Game();
+    game.audioGame.play();
     game.generateDOM();
 
     //primera iteracion
