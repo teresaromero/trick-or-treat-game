@@ -79,6 +79,7 @@ function renderCanvas() {
     "height",
     document.getElementById("main-vp").clientHeight * 0.8
   );
+
   document.querySelector("main").appendChild(canvas);
 }
 
@@ -150,4 +151,91 @@ function renderIntro() {
   card.appendChild(cardBody);
   card.appendChild(allScores);
   document.querySelector("main").appendChild(div);
+}
+
+function renderEndGame(score = 0, lifes = 0) {
+  const div = document.createElement("div");
+  div.setAttribute("id", "intro");
+  div.setAttribute("class", "container");
+  const row = document.createElement("div");
+  row.setAttribute("class", "row justify-content-center");
+
+  div.appendChild(row);
+
+  const card = document.createElement("div");
+  card.setAttribute("class", "card bg-dark");
+
+  row.appendChild(card);
+
+  const cardBody = document.createElement("div");
+  cardBody.setAttribute("class", "card-body");
+
+  const cardTitle = document.createElement("h3");
+  cardTitle.setAttribute("class", "card-title");
+  cardTitle.innerHTML = "Game over!";
+
+  cardBody.appendChild(cardTitle);
+
+  const cardText1 = document.createElement("p");
+  cardText1.setAttribute("class", "card-text");
+  cardText1.innerHTML = `You scored ${score} ⭐️ with ${lifes} lifes 🧡`;
+
+  cardBody.appendChild(cardText1);
+
+  const start = document.createElement("button");
+  start.setAttribute("type", "button");
+  start.setAttribute("class", "btn btn-danger m-1");
+  start.innerHTML = "Play Again!";
+  start.setAttribute("id", "start");
+  start.onclick = (e) => startGame(e);
+  cardBody.appendChild(start);
+
+  const allScores = document.createElement("a");
+  allScores.setAttribute("href", "#");
+  allScores.innerHTML = "Hall of Fame";
+
+  card.appendChild(cardBody);
+  card.appendChild(allScores);
+  document.querySelector("main").appendChild(div);
+}
+
+function getAssets() {
+  const items = [];
+  let src;
+  for (let i = 1; i < 16; i++) {
+    src = i < 10 ? `./assets/img/00${i}.png` : `./assets/img/0${i}.png`;
+    items.push({
+      id: i,
+      src,
+      points: 1,
+      lifes: 0,
+    });
+  }
+
+  for (let i = 1; i < 7; i++) {
+    src =
+      i < 10 ? `./assets/img/00${i}-faux.png` : `./assets/img/0${i}-faux.png`;
+    items.push({
+      id: i,
+      src,
+      points: -1,
+      lifes: 0,
+      faux: true,
+    });
+  }
+
+  return suffleArray(items);
+}
+
+function suffleArray(arr, times = 3) {
+  for (let t = times; t >= 0; t--) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * i);
+      const temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+    }
+  }
+
+  return arr;
 }

@@ -1,17 +1,20 @@
 class Item {
   constructor({
     canvas,
-    width = 60,
-    height = 60,
+    game,
+    width = itemWidth,
+    height = itemHeight,
     x = 0,
     y = 0,
-    gravity = 5,
+    gravity,
     wind = 0,
     src,
     id,
     points,
     lifes,
+    faux = false,
   }) {
+    this.game = game;
     this.canvas = canvas;
     this.ctx = canvas.ctx;
     this.width = width;
@@ -27,15 +30,16 @@ class Item {
     this.id = id;
     this.points = points;
     this.lifes = lifes;
+    this.faux = faux;
   }
 
   move() {
     this.x += this.wind;
     this.y += this.gravity;
+    if (this.y > this.canvas.canvas.height && !this.faux) endGame();
   }
 
   draw() {
-    // this.ctx.fillRect(this.x, this.y, this.width, this.height);
     this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 }

@@ -1,33 +1,9 @@
-const itemsAssets = [
-  {
-    id: 1,
-    src: "./assets/img/001-owl.png",
-    points: -1,
-    lifes: 0,
-  },
-  {
-    id: 2,
-    src: "./assets/img/001.png",
-    points: 1,
-    lifes: 0,
-  },
-  {
-    id: 3,
-    src: "./assets/img/002.png",
-    points: 1,
-    lifes: 0,
-  },
-  {
-    id: 4,
-    src: "./assets/img/003.png",
-    points: 1,
-    lifes: 0,
-  },
-];
-
 let game;
 let canvas;
 let items;
+let gravity = 5;
+let itemWidth = 60;
+let itemHeight = 60;
 
 window.onload = function () {
   renderIntro();
@@ -46,12 +22,9 @@ function startGame(e) {
     document.getElementById("intro").remove();
     renderCanvas();
     canvas = new Canvas();
-    items = itemsAssets.map((i) => {
-      const x = getRandom(0, canvas.canvas.width);
-      const y = getRandom(-20, 0);
-      return new Item({ canvas, ...i, x });
-    });
-    game = new Game(canvas, items);
+    game = new Game(canvas);
+
+    game.addItems();
 
     renderControls();
     document.getElementById("pointCount").innerHTML = game.points;
@@ -70,7 +43,6 @@ function startGame(e) {
 }
 
 function pauseGame() {
-  console.log("click");
   if (game.paused) {
     game.unpause();
     document.getElementById("pause").innerHTML = "⏸";
@@ -81,10 +53,14 @@ function pauseGame() {
 }
 
 function endGame() {
+  game.end();
+  const score = game.points;
+  const lifes = game.lifes;
   game = undefined;
   canvas = undefined;
   items = undefined;
+  gravity = 5;
   document.getElementById("canvas").remove();
   document.getElementById("controls").remove();
-  renderIntro();
+  renderEndGame(score, lifes);
 }

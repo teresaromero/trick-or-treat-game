@@ -1,10 +1,10 @@
 class Game {
-  constructor(canvas, items = [], lifes = 3, points = 0) {
+  constructor(canvas, lifes = 3, points = 0) {
     this.lifes = lifes;
     this.points = points;
     this.interval;
     this.canvas = canvas;
-    this.items = items;
+    this.items = [];
     this.paused = false;
   }
 
@@ -72,7 +72,22 @@ class Game {
       }
 
       this.items = [...itemsSet];
+      if (this.items.filter((i) => !i.faux).length < 5) {
+        this.addItems(0.75);
+      }
+
       if (this.lifes === 0) endGame();
+      if (this.points < 0) endGame();
     }
+  }
+
+  addItems(sumGravity = 0) {
+    const items = getAssets();
+    items.forEach((i) => {
+      const x = getRandom(itemWidth, this.canvas.canvas.width - itemWidth);
+      const y = getRandom(-1000, 0);
+      gravity += sumGravity;
+      this.items.push(new Item({ canvas, game: this, ...i, x, y, gravity }));
+    });
   }
 }

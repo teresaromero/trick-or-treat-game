@@ -7,9 +7,6 @@ body {
   font-family: "Arvo", serif;
 }
 
-canvas {
-  border: black 1px solid;
-}
 
 .bg-dark {
   background-color: black !important;
