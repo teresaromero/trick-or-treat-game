@@ -8,7 +8,6 @@ function createLi(id) {
 
   const icon = document.createElement("span");
   icon.setAttribute("class", "nav-link");
-  icon.setAttribute("type", "button");
   icon.setAttribute("id", id);
   icon.innerHTML = "⏸";
   li.appendChild(icon);
