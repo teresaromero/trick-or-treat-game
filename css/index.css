@@ -15,9 +15,16 @@ canvas {
   background-color: black !important;
 }
 
-header h3 {
+header {
   font-family: "Creepster", cursive;
   color: #f27503;
+}
+a {
+  color: #f27503;
+  text-decoration-line: underline;
+}
+a:hover {
+  color: white;
 }
 
 #lifeCount,

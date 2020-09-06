@@ -30,19 +30,20 @@ let canvas;
 let items;
 
 window.onload = function () {
-  document.getElementById("start").onclick = () => {
-    startGame();
-  };
+  renderIntro();
 };
 
 window.onresize = function () {
-  canvas.width = document.getElementById("main-vp").clientWidth * 0.9;
-  canvas.height = document.getElementById("main-vp").clientHeight * 0.8;
+  if (canvas) {
+    canvas.width = document.getElementById("main-vp").clientWidth * 0.9;
+    canvas.height = document.getElementById("main-vp").clientHeight * 0.8;
+  }
 };
 
-function startGame() {
+function startGame(e) {
+  e.preventDefault();
   if (!game) {
-    document.getElementById("start").hidden = true;
+    document.getElementById("intro").remove();
     renderCanvas();
     canvas = new Canvas();
     items = itemsAssets.map((i) => {
@@ -85,4 +86,5 @@ function endGame() {
   items = undefined;
   document.getElementById("canvas").remove();
   document.getElementById("controls").remove();
+  renderIntro();
 }

@@ -100,3 +100,54 @@ function renderControls() {
 
   document.querySelector("nav").appendChild(group);
 }
+
+function renderIntro() {
+  const div = document.createElement("div");
+  div.setAttribute("id", "intro");
+  div.setAttribute("class", "container");
+  const row = document.createElement("div");
+  row.setAttribute("class", "row justify-content-center");
+
+  div.appendChild(row);
+
+  const card = document.createElement("div");
+  card.setAttribute("class", "card bg-dark");
+
+  row.appendChild(card);
+
+  const cardBody = document.createElement("div");
+  cardBody.setAttribute("class", "card-body");
+
+  const cardTitle = document.createElement("h3");
+  cardTitle.setAttribute("class", "card-title");
+  cardTitle.innerHTML = "Catch all the pumpkins and make the highest score!";
+
+  cardBody.appendChild(cardTitle);
+
+  const cardText1 = document.createElement("p");
+  cardText1.setAttribute("class", "card-text");
+  cardText1.innerHTML =
+    "Be careful because the witches throw more than pumpkins, and these will take points of your score!";
+  cardBody.appendChild(cardText1);
+
+  const cardText2 = document.createElement("p");
+  cardText2.setAttribute("class", "card-text");
+  cardText2.innerHTML = "While your score more and more, witches get mad!!";
+  cardBody.appendChild(cardText2);
+
+  const start = document.createElement("button");
+  start.setAttribute("type", "button");
+  start.setAttribute("class", "btn btn-danger m-1");
+  start.innerHTML = "Go!";
+  start.setAttribute("id", "start");
+  start.onclick = (e) => startGame(e);
+  cardBody.appendChild(start);
+
+  const allScores = document.createElement("a");
+  allScores.setAttribute("href", "#");
+  allScores.innerHTML = "Hall of Fame";
+
+  card.appendChild(cardBody);
+  card.appendChild(allScores);
+  document.querySelector("main").appendChild(div);
+}
