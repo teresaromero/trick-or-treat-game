@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Creepster|Arvo");
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "Arvo", serif;
+}
+
+canvas {
+  border: black 1px solid;
+}
+
+.bg-dark {
+  background-color: black !important;
+}
+
+header h3 {
+  font-family: "Creepster", cursive;
+  color: #f27503;
+}
+
+#lifeCount,
+#pointCount {
+  color: #f27503;
+  font-size: larger;
+  padding: 0 0.2em 0 0.2em;
+}

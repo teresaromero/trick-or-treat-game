@@ -1,120 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns#">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136766016-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Trick or Treat 2.0</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
 
-  gtag('config', 'UA-136766016-1');
-</script>
-  <!-- COMMON TAGS -->
-<meta charset="utf-8">
-<title>Trick or Treat The Game</title>
-<!-- Search Engine -->
-<meta name="description" content="A game for halloween developed with JS and Canvas by @tromerodev">
-<meta name="image" content="https://tromerodev.github.io/trick-or-treat-game/img/og_image_landscape.png">
-<!-- Schema.org for Google -->
-<meta itemprop="name" content="Trick or Treat The Game">
-<meta itemprop="description" content="A game for halloween developed with JS and Canvas by @tromerodev">
-<meta itemprop="image" content="https://tromerodev.github.io/trick-or-treat-game/img/og_image_landscape.png">
-<!-- Twitter -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Trick or Treat The Game">
-<meta name="twitter:description" content="A game for halloween developed with JS and Canvas by @tromerodev">
-<meta name="twitter:creator" content="@tromerodev">
-<meta name="twitter:image:src" content="https://tromerodev.github.io/trick-or-treat-game/img/og_image_square.png">
-<!-- Open Graph general (Facebook, Pinterest & Google+) -->
-<meta name="og:title" content="Trick or Treat The Game">
-<meta name="og:description" content="A game for halloween developed with JS and Canvas by @tromerodev">
-<meta name="og:image" content="https://tromerodev.github.io/trick-or-treat-game/img/og_image_landscape.png">
-<meta name="og:url" content="https://tromerodev.github.io/trick-or-treat-game">
-<meta name="og:site_name" content="Trick or Treat The Game">
-<meta name="og:locale" content="es_ES">
-<meta name="og:type" content="website">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-  <link rel="stylesheet" href="./css/style.css">
-  <title>Trick or Treat Game</title>
-</head>
-<body>
-  <header>
-    <h1>Trick or Treat Game</h1>
-    <div id="button-control">
-      <button id="start-button">Start Game</button>
-      <button class="hideBlock" id="replay-button">Play Again</button>
-    </div>
-    
-  </header>
-  
-  <div class="hide" id="game-board">
-    <div class="canvas">
-        <canvas id="canvas" width="900" height="500"></canvas>
-    </div>
-    <div  id="control-area">
-      <div id="score-area">
-        <div id="puntos">
-          <span id="scoreTxt">10 </span>
-          <img src="./img/001-star.svg">
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  </head>
+  <body class="d-flex h-100 text-center text-white bg-dark">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <div id="main-vp" class="d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-left mb-0">Trick or Treat</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-right">
+            <button type="button" class="btn btn-primary m-1" id="start">
+              Start
+            </button>
+          </nav>
         </div>
-        <div id="vidas">
-            <span id="lifeTxt">3 </span>
-            <img src="./img/002-like.svg">
-        </div>
-      </div>
-      <!-- FIN AREA DE PUNTOS Y VIDAS -->
-      <!-- AREA DE PROGRESO -->
-      <div id="progreso">
-        <progress id="progress0-bar" value="0" max="10"></progress>
-        <!-- <img src="./img/001-owl.png" width="30" height="30"> -->
-        <progress id="progress1-bar" value="0" max="10"></progress>
-        <!-- <img src="./img/001-owl.png" width="30" height="30"> -->
-        <progress id="progress2-bar" value="0" max="10"></progress>
-        <!-- <img src="./img/001-owl.png" width="30" height="30"> -->
-        <progress id="progress3-bar" value="0" max="10"></progress>
-        <!-- <img src="./img/001-owl.png" width="30" height="30"> -->
-        <progress id="progress4-bar" value="0" max="10"></progress>
-        <!-- <img src="./img/001-owl.png" width="30" height="30"> -->
-      </div>
-      <!-- FIN AREA DE PROGRESO -->
+      </header>
 
-      <!-- AREA DE BOTONES -->
-      <div id="botones">
-        <img id="item0" src="">
-        <img id="item1" src="">
-        <img id="item2" src="">
-        <img id="item3" src="">
-        <img id="item4" src="">
-        <img id="item5" src="">
-        <img id="item6" src="">
-        <img id="item7" src="">
-      </div>
-      <!-- FIN AREA DE BOTONES -->
+      <main class="justify-content-center align-items-center bg-dark"></main>
+
+      <footer class="mt-auto text-white-50">
+        <p>
+          Coded with <span style="padding-right: 0.5em">❤️ </span>and
+          <span style="padding-right: 0.5em">🦄</span>
+        </p>
+      </footer>
     </div>
-  </div>
 
-  <footer>
-    <span><i class="fas fa-hat-wizard"></i> Coded by ©<a href="https://github.com/tromerodev" target="_blank">Teresa Romero</a> for <a href="http://learn.ironhack.com/#/learning_unit/3647">Ironhack Game Project [MAD-PT]</a></span>
-    <span>Credits:</span>
-    <span>Pumpkin Icons desing made by <a href="https://www.flaticon.com/authors/good-ware" target="_blank">Good Ware</a> from <a href="http://www.flaticon.com">Flaticon</a></span>
-    <span>Misc Objects Icons desing made by <a href="https://www.flaticon.com/authors/mavadee" target="_blank">Mavadee</a> from <a href="http://www.flaticon.com">Flaticon</a></span>
-    <span>Life and Score Icons desing made by <a href="https://www.flaticon.com/authors/smashicons" target="_blank">Smashicons</a> from <a href="http://www.flaticon.com">Flaticon</a></span>
-    <span>Background Pattern from Free Vectors by <a rel="nofollow" href="https://www.Vecteezy.com" target="_blank">www.vecteezy.com</a></span>
-    <span>Music by: <a href="https://www.youtube.com/c/wavetoysmusic" target="_blank">WaveToys</a> - Royalty Free Background Music For Videos <a href="https://wavetoysmusic.com/">https://wavetoysmusic.com/</a></span>
-    <span>Sound effects obtained from <a href="https://www.zapsplat.com" target="_blank">https://www.zapsplat.com</a></span>
-  
-  </footer>
+    <script src="./js/index.js" async defer></script>
+    <script>
+      feather.replace();
+    </script>
 
-  
-  <script type="text/javascript" src="./js/Component.js"></script>
-  <script type="text/javascript" src="./js/game.js"></script>
-  <script type="text/javascript" src="./js/main.js"></script>
-  
-  
-  
-</body>
+    <!-- JavaScript and dependencies -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
