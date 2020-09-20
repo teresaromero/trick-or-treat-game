@@ -1,45 +1,120 @@
 class Item {
   constructor({
-    canvas,
-    game,
-    width = itemWidth,
-    height = itemHeight,
+    w = 50,
+    h = 50,
     x = 0,
     y = 0,
-    gravity,
-    wind = 0,
     src,
-    id,
     points,
     lifes,
     faux = false,
   }) {
-    this.game = game;
-    this.canvas = canvas;
-    this.ctx = canvas.ctx;
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.gravity = gravity;
-    this.wind = wind;
-    this.img = new Image(width, height);
-    this.img.src = src;
-    this.img.id = id;
-    this.img.class = "game-item";
-    this.id = id;
-    this.points = points;
-    this.lifes = lifes;
-    this.faux = faux;
+    this._w = w;
+    this._h = h;
+    this._x = x;
+    this._y = y;
+    this._gravity = 1;
+    this._wind = 2;
+    this._img = new Image(this.w, this.h);
+    this._img.src = src;
+    this._points = points;
+    this._lifes = lifes;
+    this._faux = faux;
   }
 
-  move() {
-    this.x += this.wind;
-    this.y += this.gravity;
-    if (this.y > this.canvas.canvas.height && !this.faux) endGame();
+  get x() {
+    return this._x;
   }
 
-  draw() {
-    this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  set x(x) {
+    this._x = x;
+  }
+
+  get y() {
+    return this._y;
+  }
+
+  set y(y) {
+    this._y = y;
+  }
+  set move(gravity) {
+    this._y += gravity;
+  }
+
+  get w() {
+    return this._w;
+  }
+
+  get h() {
+    return this._h;
+  }
+
+  get points() {
+    return this._points;
+  }
+
+  set points(points) {
+    this._points = points;
+  }
+
+  get lifes() {
+    return this._lifes;
+  }
+
+  set lifes(lifes) {
+    this._lifes = lifes;
+  }
+
+  get faux() {
+    return this._faux;
+  }
+
+  set faux(faux) {
+    this._faux = faux;
+  }
+
+  get img() {
+    return this._img;
+  }
+
+  set imgSrc(src) {
+    this._img.src = src;
+  }
+
+  setXY(items, canvas) {
+    let clear = false;
+    let coords = {
+      x: getRandom(this.w, canvas.width - this.w),
+      y: getRandom(-this.h * 2, 0),
+    };
+    if (items.length !== 0) {
+      let count = 0;
+      while (!clear && count <= 50) {
+        count += 1;
+        let clearArr = [];
+        for (let i = 0; i <= items.length - 1; i++) {
+          let xMin = Math.min(coords.x, items[i].x);
+          let xMax = Math.max(coords.x, items[i].x);
+          let interX = xMax - (xMin + this.w);
+
+          let yMin = Math.min(coords.x, items[i].x);
+          let yMax = Math.max(coords.x, items[i].x);
+          let interY = yMax - (yMin + this.h);
+          if (interX > 0 && interY > 0) {
+            clearArr.push(0);
+          } else {
+            clearArr.push(1);
+            coords = {
+              x: getRandom(this.w, canvas.width - this.w),
+              y: getRandom(-this.h * 2, 0),
+            };
+          }
+        }
+        clear = clearArr.reduce((a, b) => a + b, 0) === 0;
+      }
+    }
+
+    this.x = coords.x;
+    this.y = coords.y;
   }
 }

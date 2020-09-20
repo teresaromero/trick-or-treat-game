@@ -80,6 +80,7 @@ function renderCanvas() {
   );
 
   document.querySelector("main").appendChild(canvas);
+  return new Canvas();
 }
 
 function renderControls() {
@@ -92,7 +93,6 @@ function renderControls() {
   const lifes = createLiCount("lifes", "lifeCount", "🧡");
 
   const pause = createLi("pause");
-  pause.onclick = (e) => pauseGame();
 
   group.appendChild(points);
   group.appendChild(lifes);
@@ -152,7 +152,7 @@ function renderIntro() {
   document.querySelector("main").appendChild(div);
 }
 
-function renderEndGame(score = 0, lifes = 0) {
+function renderEndGame(score = 0) {
   const div = document.createElement("div");
   div.setAttribute("id", "intro");
   div.setAttribute("class", "container");
@@ -177,7 +177,7 @@ function renderEndGame(score = 0, lifes = 0) {
 
   const cardText1 = document.createElement("p");
   cardText1.setAttribute("class", "card-text");
-  cardText1.innerHTML = `You scored ${score} ⭐️ with ${lifes} lifes 🧡`;
+  cardText1.innerHTML = `You scored ${score} ⭐️ `;
 
   cardBody.appendChild(cardText1);
 
@@ -198,32 +198,16 @@ function renderEndGame(score = 0, lifes = 0) {
   document.querySelector("main").appendChild(div);
 }
 
-function getAssets() {
-  const items = [];
-  let src;
-  for (let i = 1; i < 16; i++) {
-    src = i < 10 ? `./assets/img/00${i}.png` : `./assets/img/0${i}.png`;
-    items.push({
-      id: i,
-      src,
-      points: 1,
-      lifes: 0,
-    });
-  }
+function getAsset(faux) {
+  const index = faux ? getRandom(1, 7) : getRandom(1, 16);
+  const padIndex = `${index}`.padStart(3, "0");
 
-  for (let i = 1; i < 7; i++) {
-    src =
-      i < 10 ? `./assets/img/00${i}-faux.png` : `./assets/img/0${i}-faux.png`;
-    items.push({
-      id: i,
-      src,
-      points: -1,
-      lifes: 0,
-      faux: true,
-    });
-  }
-
-  return suffleArray(items);
+  const src = faux
+    ? `./assets/img/${padIndex}-faux.png`
+    : `./assets/img/${padIndex}.png`;
+  const points = faux ? -1 : 1;
+  const lifes = faux ? 0 : 0;
+  return { src, points, lifes, faux };
 }
 
 function suffleArray(arr, times = 3) {
