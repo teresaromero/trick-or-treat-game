@@ -5,6 +5,14 @@ class Canvas {
     this._items = [];
   }
 
+  get width() {
+    return this.canvas.width;
+  }
+
+  get height() {
+    return this.canvas.height;
+  }
+
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
@@ -80,17 +88,17 @@ class Canvas {
     return clicked;
   }
 
-  newItem(faux = false) {
+  newItem({ faux = false, w = 50, h = 50, wind = 0, gravity = 1 }) {
     const baseItem = getAsset(faux);
-    const newItem = new Item({ w: 50, h: 50 });
+    const newItem = new Item({ w, h });
     newItem.faux = baseItem.faux;
     newItem.imgSrc = baseItem.src;
     newItem.points = baseItem.points;
     newItem.lifes = baseItem.lifes;
     newItem.setXY(this.items, this.canvas);
 
-    newItem.gravity = 1;
-    newItem.wind = 0;
+    newItem.gravity = gravity;
+    newItem.wind = wind;
 
     this.add = newItem;
   }

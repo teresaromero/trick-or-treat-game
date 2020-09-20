@@ -10,7 +10,7 @@ class Game {
   }
 
   set ms(ms) {
-    this._ms = ms;
+    this._ms -= ms;
   }
 
   get ms() {
@@ -57,12 +57,32 @@ class Game {
   set points(p) {
     this._points += p;
     document.getElementById("pointCount").innerHTML = this.points;
+    if (this.points > 40 && this.points % 5 === 0) {
+      this.ms = 100;
+    }
   }
 
   generateItems() {
     this.interval = setInterval(() => {
       const faux = Math.random() >= 0.8;
-      this.canvas.newItem(faux);
+      let wind;
+      let gravity;
+
+      if (this.points > 30) {
+        wind = Math.random() >= 0.5 ? 1.5 : -1.5;
+        gravity = 1.5;
+      } else if (this.points <= 30 && this.points > 20) {
+        wind = Math.random() >= 0.5 ? 1 : -1;
+        gravity = 1.5;
+      } else if (this.points <= 20 && this.points > 10) {
+        wind = 0;
+        gravity = 1.5;
+      } else {
+        wind = 0;
+        gravity = 1;
+      }
+
+      this.canvas.newItem({ faux, wind, gravity });
     }, this.ms);
   }
 }
