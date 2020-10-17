@@ -55,7 +55,7 @@ class Game {
   }
 
   set points(p) {
-    this._points += p;
+    this._points = this._points === 0 && p === -1 ? 0 : (this._points + p);
     document.getElementById("pointCount").innerHTML = this.points;
     if (this.points > 40 && this.points % 5 === 0) {
       this.ms = 100;
