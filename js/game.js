@@ -51,6 +51,9 @@ class Game {
   }
 
   get points() {
+    if (this._points < 0) {
+      this._points = 0;
+    }
     return this._points;
   }
 
