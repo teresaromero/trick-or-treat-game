@@ -69,7 +69,6 @@ All scripts share the global scope; there are no imports. Every script tag is `a
 - `getRandom(min, max)` excludes `max`, so `getAsset` never picks `016.png` or `007-faux.png`.
 - `Item.setXY` overlap check computes the Y overlap from `x` coordinates, and its condition is inverted, so spawn de-overlapping doesn't really work.
 - Faux items that fall off the bottom are never removed from `canvas.items`, so the array grows over a long game.
-- `Canvas.move()` returns early on the first expired pumpkin, so the remaining items skip that frame's update.
 - `window.onresize` assigns `canvas.width`/`height` on the `Canvas` wrapper, which only has getters. The assignment silently does nothing, so the canvas doesn't resize.
 - Speed-up (`ms` decreases past 40 points) only takes effect when `generateItems` is called again, i.e. after a pause/resume.
 - `Game` constructor sets `_paused`, but the getter and setter use `_pause`.

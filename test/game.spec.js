@@ -208,6 +208,23 @@ describe("lives", () => {
     expect(g.screen()).toBe("playing");
   });
 
+  test("other items keep falling on the frame a pumpkin is lost", async () => {
+    await playing({ random: PUMPKIN });
+    const newest = () => g.visibleItems().at(-1).y;
+
+    g.advanceUntil(() => g.lives() === 3 && g.visibleItems().length > 1);
+    let previous = newest();
+    g.advanceFrames(1);
+    const step = newest() - previous;
+
+    while (g.lives() === 3) {
+      previous = newest();
+      g.advanceFrames(1);
+    }
+
+    expect(newest() - previous).toBe(step);
+  });
+
   test("a faux item falling off the bottom costs nothing", async () => {
     await playing({ random: FAUX });
     waitForSpawn();

@@ -32,6 +32,7 @@ class Canvas {
   }
 
   move() {
+    const expired = [];
     for (let i = 0; i <= this.items.length - 1; i++) {
       this.items[i].move = this.items[i].gravity;
 
@@ -46,10 +47,14 @@ class Canvas {
 
       // condition for ending game, a non faux object cross Y limit
       if (this.items[i].y > this.canvas.height && !this.items[i].faux) {
-        this.delete = i;
-        return true;
+        expired.push(i);
       }
     }
+
+    for (let i = expired.length - 1; i >= 0; i--) {
+      this.delete = expired[i];
+    }
+    return expired.length;
   }
 
   get items() {

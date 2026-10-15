@@ -29,8 +29,8 @@ function startGame(e) {
     function init() {
       const expired = canvas.move();
       if (expired) {
-        game.lifes = 1;
-        if (game.lifes === 0) return endGame();
+        for (let i = 0; i < expired; i++) game.lifes = 1;
+        if (game.lifes <= 0) return endGame();
       }
       canvas.draw();
       game.animation = window.requestAnimationFrame(init);
