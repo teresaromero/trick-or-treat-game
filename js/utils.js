@@ -212,7 +212,7 @@ function renderEndGame(score = 0) {
 }
 
 function getAsset(faux) {
-  const index = faux ? getRandom(1, 7) : getRandom(1, 16);
+  const index = faux ? getRandom(1, 8) : getRandom(1, 17);
   const padIndex = `${index}`.padStart(3, "0");
 
   const src = faux

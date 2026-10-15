@@ -220,6 +220,7 @@ export async function openGame({
         .getContext("2d")
         .lastFrame.map(({ src, x, y, w, h }) => ({
           kind: /-faux\.png$/.test(src) ? "faux" : "pumpkin",
+          image: src.split("/").pop(),
           x,
           y,
           w,

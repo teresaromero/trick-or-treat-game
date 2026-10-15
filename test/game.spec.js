@@ -507,3 +507,29 @@ describe("spawn speed", () => {
     expect(spawnedIn(1000)).toBeLessThanOrEqual(5);
   });
 });
+
+describe("item variety", () => {
+  // The pictures of every item that shows up over a long game.
+  function imagesSeenOver(spawns) {
+    const seen = new Set();
+    for (let i = 0; i < spawns; i++) {
+      g.advanceTime(1000);
+      g.advanceFrames(1);
+      // Clear the board so no pumpkin reaches the bottom and ends the game.
+      for (const item of g.visibleItems()) {
+        seen.add(item.image);
+        g.click(item);
+      }
+    }
+    return seen;
+  }
+
+  test("every pumpkin and every faux picture eventually falls", async () => {
+    await playing({ random: seeded(7), viewport: { width: 3000, height: 20000 } });
+
+    const seen = imagesSeenOver(400);
+
+    expect(seen).toContain("016.png");
+    expect(seen).toContain("007-faux.png");
+  });
+});
