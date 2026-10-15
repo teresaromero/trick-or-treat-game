@@ -289,6 +289,17 @@ describe("lives", () => {
     expect(newest() - previous).toBe(step);
   });
 
+  test("faux items that fall off the bottom leave the board", async () => {
+    await playing({ random: FAUX });
+    waitForSpawn();
+
+    g.advanceFrames(1000);
+
+    const { height } = g.canvasSize();
+    expect(g.visibleItems().length).toBeGreaterThan(0);
+    expect(g.visibleItems().every((item) => item.y <= height)).toBe(true);
+  });
+
   test("a faux item falling off the bottom costs nothing", async () => {
     await playing({ random: FAUX });
     waitForSpawn();

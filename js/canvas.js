@@ -33,6 +33,7 @@ class Canvas {
 
   move() {
     const expired = [];
+    let lost = 0;
     for (let i = 0; i <= this.items.length - 1; i++) {
       this.items[i].move = this.items[i].gravity;
 
@@ -45,16 +46,17 @@ class Canvas {
       }
       this.items[i].x += this.items[i].wind;
 
-      // condition for ending game, a non faux object cross Y limit
-      if (this.items[i].y > this.canvas.height && !this.items[i].faux) {
+      // Anything past the bottom leaves the board; only a pumpkin costs a life.
+      if (this.items[i].y > this.canvas.height) {
         expired.push(i);
+        if (!this.items[i].faux) lost++;
       }
     }
 
     for (let i = expired.length - 1; i >= 0; i--) {
       this.delete = expired[i];
     }
-    return expired.length;
+    return lost;
   }
 
   get items() {
