@@ -7,7 +7,7 @@ Live at https://teresaromero.github.io/trick-or-treat-game (GitHub Pages, served
 ## Stack
 
 - Plain HTML, CSS and vanilla ES6 JavaScript (classes, getters and setters). No build step and no modules. `package.json` exists only for dev-time tooling (tests, plus `serve` as the local static server); the site ships with no runtime dependencies.
-- Bootstrap and Feather icons come from CDNs. The CSS is Bootstrap **4.5.2**, but the JS bundle is **5.0.0-alpha1** (a mismatch). Only Bootstrap's CSS classes are actually used.
+- Bootstrap and Feather icons come from CDNs. Only Bootstrap's CSS (**4.5.2**) is loaded; no Bootstrap JS.
 - Google Fonts: Creepster (header) and Arvo (body).
 - `.prettierrc` and `.vscode` are gitignored, so formatting is whatever Prettier defaults produced (double quotes, semicolons, 2 spaces).
 
@@ -66,8 +66,6 @@ All scripts share the global scope; there are no imports. Every script tag is `a
 
 ## Known bugs and loose ends (left as-is unless asked)
 
-- `getRandom(min, max)` excludes `max`, so `getAsset` never picks `016.png` or `007-faux.png`.
-- `Item.setXY` overlap check computes the Y overlap from `x` coordinates, and its condition is inverted, so spawn de-overlapping doesn't really work.
-- `Game` constructor sets `_paused`, but the getter and setter use `_pause`.
+- `getRandom(min, max)` excludes `max`; callers pass `max` one past the last wanted value.
 - Unused: `renderModal`, `suffleArray`, `css/fire.css`, all sounds, and the "Hall of Fame" link (`href="#"`). The README "How to play" section is empty.
 - An earlier commit added Google Analytics, but the 2.0 refactor dropped it.
