@@ -77,8 +77,9 @@ class Canvas {
     const { offsetX, offsetY } = e;
 
     let clicked;
-    for (let i = 0; i <= this.items.length - 1; i++) {
-      const { x, y, points, lifes, w, h } = this.items[i];
+    // Newest first: later items are drawn on top, so they are the ones seen.
+    for (let i = this.items.length - 1; i >= 0; i--) {
+      const { x, y, w, h } = this.items[i];
       if (
         offsetX >= x &&
         offsetX <= x + w &&

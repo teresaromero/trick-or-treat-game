@@ -6,7 +6,7 @@
 // its own red spec.
 
 import { afterEach, describe, expect, test } from "vitest";
-import { openGame } from "./driver.js";
+import { openGame, seeded } from "./driver.js";
 
 const PUMPKIN = 0.5; // a random value that spawns a pumpkin
 const FAUX = 0.9; // a random value that spawns a faux item
@@ -166,6 +166,46 @@ describe("scoring", () => {
     g.advanceFrames(1);
 
     expect(g.visibleItems().filter((i) => i.kind === "faux")).toEqual([]);
+  });
+});
+
+describe("overlapping items", () => {
+  const overlap = (a, b) => ({
+    x: (Math.max(a.x, b.x) + Math.min(a.x + a.w, b.x + b.w)) / 2,
+    y: (Math.max(a.y, b.y) + Math.min(a.y + a.h, b.y + b.h)) / 2,
+  });
+  const covers = (item, { x, y }) =>
+    x >= item.x && x <= item.x + item.w && y >= item.y && y <= item.y + item.h;
+
+  // A faux item with a pumpkin drawn on top of it, and a point only they cover.
+  function pumpkinOverFaux() {
+    const items = g.visibleItems();
+    for (let i = 0; i < items.length; i++) {
+      for (let j = i + 1; j < items.length; j++) {
+        if (items[i].kind !== "faux" || items[j].kind !== "pumpkin") continue;
+        const point = overlap(items[i], items[j]);
+        const covering = items.filter((item) => covers(item, point));
+        const both = covers(items[i], point) && covers(items[j], point);
+        if (both && covering.length === 2) return point;
+      }
+    }
+    return undefined;
+  }
+
+  test("a click on overlapping items hits the one drawn on top", async () => {
+    // A narrow board keeps items in nearly the same column; a tall one keeps
+    // pumpkins from falling off during the search.
+    await playing({
+      random: seeded(3),
+      viewport: { width: 150, height: 20000 },
+    });
+    g.advanceUntil(() => pumpkinOverFaux() !== undefined);
+    // Something is on top of something else, and the pumpkin is the visible one.
+    const point = pumpkinOverFaux();
+
+    g.clickAt(point.x, point.y);
+
+    expect(g.score()).toBe(1);
   });
 });
 
