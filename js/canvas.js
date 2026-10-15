@@ -48,7 +48,7 @@ class Canvas {
       if (
         this.items[i].x + this.items[i].wind >
           this.canvas.width - this.items[i].w ||
-        this.items[i].x + this.items[i].wind < this.items[i].w
+        this.items[i].x + this.items[i].wind < 0
       ) {
         this.items[i].wind = -this.items[i].wind;
       }

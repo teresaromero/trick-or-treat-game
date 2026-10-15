@@ -537,6 +537,24 @@ describe("item variety", () => {
   });
 });
 
+describe("side walls", () => {
+  test("windy items can reach the left edge of the board", async () => {
+    await playing({
+      random: seeded(5),
+      viewport: { width: 300, height: 20000 },
+    });
+    scorePumpkins(21);
+
+    let leftmost = Infinity;
+    for (let i = 0; i < 600; i++) {
+      g.advanceFrames(1);
+      for (const item of g.visibleItems()) leftmost = Math.min(leftmost, item.x);
+    }
+
+    expect(leftmost).toBeLessThan(10);
+  });
+});
+
 describe("spawn placement", () => {
   const overlaps = (a, b) =>
     Math.abs(a.x - b.x) < a.w && Math.abs(a.y - b.y) < a.h;
