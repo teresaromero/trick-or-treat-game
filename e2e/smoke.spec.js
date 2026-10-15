@@ -111,3 +111,16 @@ for (const viewport of [
     expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
   });
 }
+
+test("social preview images use absolute URLs", async ({ page }) => {
+  await page.goto("/");
+
+  for (const selector of [
+    'meta[itemprop="image"]',
+    'meta[property="og:image"]',
+    'meta[name="twitter:image"]',
+  ]) {
+    const content = await page.locator(selector).getAttribute("content");
+    expect(content, selector).toMatch(/^https:\/\//);
+  }
+});
