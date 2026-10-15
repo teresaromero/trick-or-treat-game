@@ -79,6 +79,21 @@ test("losing all lives ends the game and Play Again restarts", async ({
   await expect(page.locator("nav")).toContainText("3🧡");
 });
 
+test("the canvas follows the window when it is resized", async ({ page }) => {
+  await page.setViewportSize({ width: 1200, height: 800 });
+  await start(page);
+  const before = await page.locator("canvas").boundingBox();
+
+  await page.setViewportSize({ width: 600, height: 500 });
+
+  await expect
+    .poll(async () => (await page.locator("canvas").boundingBox()).width)
+    .toBeLessThan(before.width);
+  const after = await page.locator("canvas").boundingBox();
+  expect(after.width).toBeLessThanOrEqual(600);
+  expect(after.height).toBeLessThan(before.height);
+});
+
 for (const viewport of [
   { width: 1280, height: 720 },
   { width: 1000, height: 500 },

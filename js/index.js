@@ -10,8 +10,8 @@ window.onload = function () {
 
 window.onresize = function () {
   if (canvas) {
-    canvas.width = document.getElementById("main-vp").clientWidth * 0.9;
-    canvas.height = document.getElementById("main-vp").clientHeight * 0.8;
+    const { width, height } = getCanvasSize();
+    canvas.resize(width, height);
   }
 };
 

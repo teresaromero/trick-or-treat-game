@@ -13,6 +13,14 @@ class Canvas {
     return this.canvas.height;
   }
 
+  resize(width, height) {
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.items.forEach((item) => {
+      item.x = Math.max(0, Math.min(item.x, width - item.w));
+    });
+  }
+
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
