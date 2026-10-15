@@ -63,7 +63,7 @@ All scripts share the global scope; there are no imports. Every script tag is `a
 - Game classes update the DOM directly (`Game` setters write to `#pointCount`/`#lifeCount`).
 - UI is built imperatively with `document.createElement` in `utils.js`, not templates.
 
-## Known bugs and loose ends (left as-is unless asked)
+## Loose ends (left as-is unless asked)
 
 - `getRandom(min, max)` excludes `max`; callers pass `max` one past the last wanted value.
 - Unused: all sounds in `assets/sound/` (kept for the 3.0 revamp).
