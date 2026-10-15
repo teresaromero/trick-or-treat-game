@@ -19,10 +19,11 @@ function startGame(e) {
   e.preventDefault();
   if (!game) {
     document.getElementById("intro").remove();
+    // Controls first: they make the header taller, which the canvas must allow for.
+    renderControls();
     canvas = renderCanvas();
     game = new Game(canvas);
 
-    renderControls();
     document.getElementById("pointCount").innerHTML = game.points;
     document.getElementById("lifeCount").innerHTML = game.lifes;
 

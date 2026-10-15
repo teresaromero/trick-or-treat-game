@@ -67,17 +67,30 @@ function renderModal() {
   document.body.insertBefore(modal, document.getElementById("main-vp"));
 }
 
+// The largest canvas that fits the screen: 90% of the viewport wide, and as
+// tall as is left once the header, controls, footer and padding take their share.
+function getCanvasSize() {
+  const viewport = document.getElementById("main-vp");
+  const style = window.getComputedStyle(viewport);
+  const padding =
+    (parseFloat(style.paddingTop) || 0) + (parseFloat(style.paddingBottom) || 0);
+  const chrome =
+    document.querySelector("header").offsetHeight +
+    document.querySelector("footer").offsetHeight;
+  // The extra pixels cover the gap an inline canvas leaves under itself.
+  const free = viewport.clientHeight - padding - chrome - 8;
+  return {
+    width: viewport.clientWidth * 0.9,
+    height: Math.min(viewport.clientHeight * 0.8, free),
+  };
+}
+
 function renderCanvas() {
+  const { width, height } = getCanvasSize();
   const canvas = document.createElement("canvas");
   canvas.setAttribute("id", "canvas");
-  canvas.setAttribute(
-    "width",
-    document.getElementById("main-vp").clientWidth * 0.9
-  );
-  canvas.setAttribute(
-    "height",
-    document.getElementById("main-vp").clientHeight * 0.8
-  );
+  canvas.setAttribute("width", width);
+  canvas.setAttribute("height", height);
 
   document.querySelector("main").appendChild(canvas);
   return new Canvas();

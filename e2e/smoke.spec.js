@@ -78,3 +78,21 @@ test("losing all lives ends the game and Play Again restarts", async ({
   await expect(page.locator("nav")).toContainText("0⭐️");
   await expect(page.locator("nav")).toContainText("3🧡");
 });
+
+for (const viewport of [
+  { width: 1280, height: 720 },
+  { width: 1000, height: 500 },
+  { width: 390, height: 600 },
+]) {
+  test(`the whole canvas fits the screen at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await start(page);
+
+    const box = await page.locator("canvas").boundingBox();
+
+    expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+    expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
+  });
+}
