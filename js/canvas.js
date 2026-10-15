@@ -106,9 +106,8 @@ class Canvas {
 
   newItem({ faux = false, w = 50, h = 50, wind = 0, gravity = 1 }) {
     const baseItem = getAsset(faux);
-    const newItem = new Item({ w, h });
+    const newItem = new Item({ w, h, src: baseItem.src });
     newItem.faux = baseItem.faux;
-    newItem.imgSrc = baseItem.src;
     newItem.points = baseItem.points;
     newItem.lifes = baseItem.lifes;
     newItem.setXY(this.items, this.canvas);
