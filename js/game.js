@@ -1,3 +1,5 @@
+const MIN_MS = 200;
+
 class Game {
   constructor(canvas, lifes = 3, points = 0) {
     this._lifes = lifes;
@@ -7,10 +9,11 @@ class Game {
     this._animation = undefined;
     this._interval = undefined;
     this._ms = 1000;
+    this._milestone = 40;
   }
 
   set ms(ms) {
-    this._ms -= ms;
+    this._ms = Math.max(MIN_MS, this._ms - ms);
   }
 
   get ms() {
@@ -57,7 +60,9 @@ class Game {
   set points(p) {
     this._points += p;
     document.getElementById("pointCount").innerHTML = this.points;
-    if (this.points > 40 && this.points % 5 === 0) {
+    // Speed up once per new multiple of 5, not every time the score lands on one.
+    if (this.points > this._milestone && this.points % 5 === 0) {
+      this._milestone = this.points;
       this.ms = 100;
     }
   }

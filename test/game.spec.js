@@ -352,3 +352,36 @@ describe("difficulty", () => {
     expect(fast).toBeGreaterThan(slow);
   });
 });
+
+describe("spawn speed", () => {
+  const TALL = { width: 1000, height: 20000 };
+
+  // How many items appear in the next `ms` of play.
+  function spawnedIn(ms) {
+    const before = g.visibleItems().length;
+    g.advanceTime(ms);
+    g.advanceFrames(1);
+    return g.visibleItems().length - before;
+  }
+
+  // Lose a point to a faux item and win it back.
+  function bounceScore() {
+    g.setRandom(FAUX);
+    g.click(waitForSpawn());
+    g.setRandom(PUMPKIN);
+    scorePumpkins(g.score() + 1);
+  }
+
+  test("going back and forth over a score does not keep speeding the game up", async () => {
+    await playing({ random: PUMPKIN, viewport: TALL });
+    scorePumpkins(45);
+
+    // Enough landings on 45 to take a 1000 ms spawn interval down to 100 ms.
+    for (let i = 0; i < 8; i++) bounceScore();
+    // A pause and resume restarts spawning at whatever speed the game has.
+    g.togglePause();
+    g.togglePause();
+
+    expect(spawnedIn(1000)).toBeLessThanOrEqual(5);
+  });
+});
