@@ -169,6 +169,30 @@ describe("scoring", () => {
   });
 });
 
+describe("faux items at low scores", () => {
+  test("clicking a faux item at 0 points keeps the score at 0 and the game going", async () => {
+    await playing({ random: FAUX });
+    const faux = waitForSpawn();
+
+    g.click(faux);
+
+    expect(g.score()).toBe(0);
+    expect(g.screen()).toBe("playing");
+  });
+
+  test("clicking a faux item at 1 point drops to 0 without ending the game", async () => {
+    await playing({ random: PUMPKIN });
+    scorePumpkins(1);
+    g.setRandom(FAUX);
+    const faux = waitForSpawn();
+
+    g.click(faux);
+
+    expect(g.score()).toBe(0);
+    expect(g.screen()).toBe("playing");
+  });
+});
+
 describe("overlapping items", () => {
   const overlap = (a, b) => ({
     x: (Math.max(a.x, b.x) + Math.min(a.x + a.w, b.x + b.w)) / 2,

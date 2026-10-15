@@ -79,7 +79,7 @@ function startGame(e) {
           if (clicked) {
             game.points = clicked.points;
             game.lifes = clicked.lifes;
-            if (game.points <= 0 || game.lifes <= 0) endGame();
+            if (game.lifes <= 0) endGame();
           }
         }
       },
