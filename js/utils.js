@@ -36,39 +36,6 @@ function createLiCount(id, countId, emoji) {
   return li;
 }
 
-function renderModal() {
-  const modal = document.createElement("div");
-  modal.setAttribute("id", "end-modal");
-  modal.setAttribute("class", "modal-dialog modal-dialog-centered fade");
-  modal.setAttribute("tabindex", "-1");
-
-  const dialog = document.createElement("div");
-  dialog.setAttribute("class", "modal-dialog");
-  modal.appendChild(dialog);
-
-  const content = document.createElement("div");
-  content.setAttribute("class", "modal-content");
-
-  dialog.appendChild(content);
-
-  const header = document.createElement("div");
-  header.setAttribute("class", "modal-header");
-
-  const body = document.createElement("div");
-  body.setAttribute("class", "modal-body");
-
-  const footer = document.createElement("div");
-  footer.setAttribute("class", "modal-footer");
-
-  content.appendChild(header);
-  content.appendChild(body);
-  content.appendChild(footer);
-
-  document.body.insertBefore(modal, document.getElementById("main-vp"));
-}
-
-// The largest canvas that fits the screen: 90% of the viewport wide, and as
-// tall as is left once the header, controls, footer and padding take their share.
 function getCanvasSize() {
   const viewport = document.getElementById("main-vp");
   const style = window.getComputedStyle(viewport);
@@ -156,12 +123,7 @@ function renderIntro() {
   start.onclick = (e) => startGame(e);
   cardBody.appendChild(start);
 
-  const allScores = document.createElement("a");
-  allScores.setAttribute("href", "#");
-  allScores.innerHTML = "Hall of Fame";
-
   card.appendChild(cardBody);
-  card.appendChild(allScores);
   document.querySelector("main").appendChild(div);
 }
 
@@ -202,12 +164,7 @@ function renderEndGame(score = 0) {
   start.onclick = (e) => startGame(e);
   cardBody.appendChild(start);
 
-  const allScores = document.createElement("a");
-  allScores.setAttribute("href", "#");
-  allScores.innerHTML = "Hall of Fame";
-
   card.appendChild(cardBody);
-  card.appendChild(allScores);
   document.querySelector("main").appendChild(div);
 }
 
@@ -221,17 +178,4 @@ function getAsset(faux) {
   const points = faux ? -1 : 1;
   const lifes = faux ? 0 : 0;
   return { src, points, lifes, faux };
-}
-
-function suffleArray(arr, times = 3) {
-  for (let t = times; t >= 0; t--) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * i);
-      const temp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = temp;
-    }
-  }
-
-  return arr;
 }

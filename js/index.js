@@ -1,8 +1,5 @@
 let game;
 let canvas;
-let items;
-let itemWidth = 50;
-let itemHeight = 50;
 
 window.onload = function () {
   renderIntro();
