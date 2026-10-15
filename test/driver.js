@@ -66,6 +66,7 @@ export async function openGame({
 } = {}) {
   let rng = toRandom(random);
   let clock;
+  let tabHidden = false;
   const contexts = new WeakMap();
 
   const dom = new JSDOM(pageHtml(), {
@@ -83,6 +84,30 @@ export async function openGame({
           "cancelAnimationFrame",
         ],
       });
+      // Like a real browser, animation frames stop while the tab is hidden
+      // but timers keep running.
+      const frameIds = new Map();
+      const fakeRaf = window.requestAnimationFrame.bind(window);
+      const fakeCaf = window.cancelAnimationFrame.bind(window);
+      let nextFrameId = 1;
+      window.requestAnimationFrame = (callback) => {
+        const id = nextFrameId++;
+        const schedule = () =>
+          frameIds.set(
+            id,
+            fakeRaf((time) => {
+              if (tabHidden) return schedule();
+              frameIds.delete(id);
+              callback(time);
+            })
+          );
+        schedule();
+        return id;
+      };
+      window.cancelAnimationFrame = (id) => {
+        fakeCaf(frameIds.get(id));
+        frameIds.delete(id);
+      };
       window.Math.random = () => rng();
       window.feather = { replace() {} };
       window.HTMLCanvasElement.prototype.getContext = function () {
@@ -124,6 +149,19 @@ export async function openGame({
     [...nav().querySelectorAll("li span")].find((el) =>
       ["⏸", "▶️"].includes(el.textContent.trim())
     );
+
+  const setTabHidden = (hidden) => {
+    tabHidden = hidden;
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      get: () => hidden,
+    });
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      get: () => (hidden ? "hidden" : "visible"),
+    });
+    document.dispatchEvent(new window.Event("visibilitychange"));
+  };
 
   const g = {
 
@@ -221,6 +259,15 @@ export async function openGame({
       if (!predicate()) {
         throw new Error(`condition not met within ${maxFrames} frames`);
       }
+    },
+
+    // The player switches to another tab (or comes back).
+    hideTab() {
+      setTabHidden(true);
+    },
+
+    showTab() {
+      setTabHidden(false);
     },
 
     togglePause() {

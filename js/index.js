@@ -36,7 +36,28 @@ function startGame(e) {
       game.animation = window.requestAnimationFrame(init);
     }
 
+    function pauseGame() {
+      game.pause = true;
+      clearInterval(game.interval);
+      window.cancelAnimationFrame(game.animation);
+      document.getElementById("pause").innerHTML = "▶️";
+    }
+
+    function resumeGame() {
+      game.pause = false;
+      game.animation = window.requestAnimationFrame(init);
+      game.generateItems();
+      document.getElementById("pause").innerHTML = "⏸";
+    }
+
+    // Frames stop in a hidden tab but timers don't, so items would pile up.
+    function onVisibilityChange() {
+      if (document.hidden && !game.pause) pauseGame();
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     function endGame() {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       clearInterval(game.interval);
       window.cancelAnimationFrame(game.animation);
       document.getElementById("canvas").remove();
@@ -68,17 +89,8 @@ function startGame(e) {
     document.getElementById("pause").addEventListener(
       "click",
       (e) => {
-        if (game.pause) {
-          game.pause = false;
-          game.animation = window.requestAnimationFrame(init);
-          game.generateItems();
-          document.getElementById("pause").innerHTML = "⏸";
-        } else {
-          game.pause = true;
-          clearInterval(game.interval);
-          window.cancelAnimationFrame(game.animation);
-          document.getElementById("pause").innerHTML = "▶️";
-        }
+        if (game.pause) resumeGame();
+        else pauseGame();
       },
       false
     );

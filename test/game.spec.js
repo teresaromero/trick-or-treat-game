@@ -351,6 +351,43 @@ describe("pause", () => {
   });
 });
 
+describe("leaving the tab", () => {
+  test("the game pauses while the tab is hidden", async () => {
+    await playing({ random: PUMPKIN, viewport: { width: 1000, height: 20000 } });
+    waitForSpawn();
+
+    g.hideTab();
+    g.advanceTime(10_000);
+    g.showTab();
+    g.advanceFrames(1);
+
+    expect(g.visibleItems()).toHaveLength(1);
+    expect(g.isPaused()).toBe(true);
+  });
+
+  test("the player resumes the game when they are back", async () => {
+    await playing({ random: PUMPKIN, viewport: { width: 1000, height: 20000 } });
+    waitForSpawn();
+    g.hideTab();
+    g.showTab();
+
+    g.togglePause();
+    g.advanceUntil(() => g.visibleItems().length === 2);
+
+    expect(g.isPaused()).toBe(false);
+  });
+
+  test("a game the player paused stays paused when the tab is hidden and shown", async () => {
+    await playing({ random: PUMPKIN });
+    g.togglePause();
+
+    g.hideTab();
+    g.showTab();
+
+    expect(g.isPaused()).toBe(true);
+  });
+});
+
 describe("play again", () => {
   test("starts a fresh game with 0 points and 3 lives", async () => {
     await playing({ random: PUMPKIN });
