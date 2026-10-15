@@ -6,19 +6,19 @@ Live at https://teresaromero.github.io/trick-or-treat-game (GitHub Pages, served
 
 ## Stack
 
-- Plain HTML, CSS and vanilla ES6 JavaScript (classes, getters and setters). No build step and no modules. `package.json` exists only for dev-time test tooling; the site ships with no runtime dependencies.
+- Plain HTML, CSS and vanilla ES6 JavaScript (classes, getters and setters). No build step and no modules. `package.json` exists only for dev-time tooling (tests, plus `serve` as the local static server); the site ships with no runtime dependencies.
 - Bootstrap and Feather icons come from CDNs. The CSS is Bootstrap **4.5.2**, but the JS bundle is **5.0.0-alpha1** (a mismatch). Only Bootstrap's CSS classes are actually used.
 - Google Fonts: Creepster (header) and Arvo (body).
 - `.prettierrc` and `.vscode` are gitignored, so formatting is whatever Prettier defaults produced (double quotes, semicolons, 2 spaces).
 
 ## Running
 
-Open `index.html` in a browser, or serve the directory statically, e.g. `python3 -m http.server`, then visit http://localhost:8000. Assets use relative `./assets/...` paths, so serving from the repo root matters.
+Open `index.html` in a browser, or run `npm start` (which uses `serve`), then visit http://localhost:8000. Assets use relative `./assets/...` paths, so serving from the repo root matters.
 
 ## Testing
 
 - `npm test`: Vitest + jsdom behavior suite (`test/game.spec.js`), which runs in under a second.
-- `npm run test:e2e`: Playwright smoke tests in Chromium (`e2e/smoke.spec.js`). Run `npx playwright install chromium` once first. It serves the repo with `python3 -m http.server 8000`, and CDN assets need network access.
+- `npm run test:e2e`: Playwright smoke tests in Chromium (`e2e/smoke.spec.js`). Run `npx playwright install chromium` once first. It serves the repo with `npm start` on port 8000, and CDN assets need network access.
 
 The tests are **black-box on purpose**, so they survive the planned refactor:
 - `test/driver.js` loads the real `index.html` into jsdom, inlining the local scripts and dropping CDN tags. It fakes timers and rAF (`@sinonjs/fake-timers`), makes `Math.random` controllable, and stubs `getContext("2d")` with a recorder. The game is observed through what a player sees: HUD text, screens, and the `drawImage` calls of the last frame (`visibleItems()`; the kind comes from the `-faux.png` filename).

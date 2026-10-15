@@ -4,6 +4,7 @@
   "description": "Dev-only test tooling. The game itself has no build step.",
   "type": "module",
   "scripts": {
+    "start": "serve -l 8000 --no-clipboard",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
@@ -13,6 +14,7 @@
     "@sinonjs/fake-timers": "^15.4.0",
     "@testing-library/dom": "^10.4.2",
     "jsdom": "^29.1.1",
+    "serve": "^14.2.6",
     "vitest": "^5.0.4"
   }
 }
