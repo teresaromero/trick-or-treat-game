@@ -82,36 +82,21 @@ class Item {
   }
 
   setXY(items, canvas) {
-    let clear = false;
-    let coords = {
+    const randomCoords = () => ({
       x: getRandom(this.w, canvas.width - this.w),
       y: getRandom(-this.h * 2, 0),
-    };
-    if (items.length !== 0) {
-      let count = 0;
-      while (!clear && count <= 50) {
-        count += 1;
-        let clearArr = [];
-        for (let i = 0; i <= items.length - 1; i++) {
-          let xMin = Math.min(coords.x, items[i].x);
-          let xMax = Math.max(coords.x, items[i].x);
-          let interX = xMax - (xMin + this.w);
+    });
+    const overlaps = (coords) =>
+      items.some(
+        (item) =>
+          Math.abs(coords.x - item.x) < this.w &&
+          Math.abs(coords.y - item.y) < this.h
+      );
 
-          let yMin = Math.min(coords.x, items[i].x);
-          let yMax = Math.max(coords.x, items[i].x);
-          let interY = yMax - (yMin + this.h);
-          if (interX > 0 && interY > 0) {
-            clearArr.push(0);
-          } else {
-            clearArr.push(1);
-            coords = {
-              x: getRandom(this.w, canvas.width - this.w),
-              y: getRandom(-this.h * 2, 0),
-            };
-          }
-        }
-        clear = clearArr.reduce((a, b) => a + b, 0) === 0;
-      }
+    // Give up after a few tries on a crowded board and take the last spot.
+    let coords = randomCoords();
+    for (let tries = 0; tries < 50 && overlaps(coords); tries++) {
+      coords = randomCoords();
     }
 
     this.x = coords.x;

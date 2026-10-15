@@ -217,19 +217,22 @@ describe("overlapping items", () => {
   }
 
   test("a click on overlapping items hits the one drawn on top", async () => {
-    // A narrow board keeps items in nearly the same column; a tall one keeps
-    // pumpkins from falling off during the search.
+    // Past 20 points items drift sideways and cross each other's path. A
+    // narrow board makes that happen often; a tall one keeps pumpkins from
+    // falling off during the search.
     await playing({
       random: seeded(3),
-      viewport: { width: 150, height: 20000 },
+      viewport: { width: 300, height: 20000 },
     });
+    scorePumpkins(21);
     g.advanceUntil(() => pumpkinOverFaux() !== undefined);
     // Something is on top of something else, and the pumpkin is the visible one.
     const point = pumpkinOverFaux();
+    const before = g.score();
 
     g.clickAt(point.x, point.y);
 
-    expect(g.score()).toBe(1);
+    expect(g.score()).toBe(before + 1);
   });
 });
 
@@ -531,5 +534,25 @@ describe("item variety", () => {
 
     expect(seen).toContain("016.png");
     expect(seen).toContain("007-faux.png");
+  });
+});
+
+describe("spawn placement", () => {
+  const overlaps = (a, b) =>
+    Math.abs(a.x - b.x) < a.w && Math.abs(a.y - b.y) < a.h;
+
+  test("a new item does not land on top of another when there is room", async () => {
+    await playing({
+      random: seeded(11),
+      viewport: { width: 300, height: 20000 },
+    });
+
+    for (let i = 0; i < 40; i++) {
+      const before = g.visibleItems().length;
+      g.advanceUntil(() => g.visibleItems().length > before);
+      const items = g.visibleItems();
+      const fresh = items.at(-1);
+      expect(items.slice(0, -1).filter((item) => overlaps(fresh, item))).toEqual([]);
+    }
   });
 });
