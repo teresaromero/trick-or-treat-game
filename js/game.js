@@ -42,11 +42,11 @@ class Game {
   }
 
   set pause(value) {
-    this._pause = value;
+    this._paused = value;
   }
 
   get pause() {
-    return this._pause;
+    return this._paused;
   }
 
   get lifes() {
