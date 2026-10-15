@@ -49,13 +49,13 @@ All scripts share the global scope; there are no imports. Every script tag is `a
 
 1. `renderIntro()` shows a card with a "Go!" button that calls `startGame`.
 2. `startGame` removes the intro, creates the `<canvas>` (90%×80% of `#main-vp`), creates `Canvas` and `Game`, and renders the points/lives/pause controls in the `<nav>`.
-3. Two loops run:
+3. Two loops run (the spawn interval restarts whenever `ms` changes; `ms` drops 100 per new multiple of 5 above 40, never below 200):
    - **Render loop** (`requestAnimationFrame(init)`): `canvas.move()` applies gravity and wind (wind bounces off the side walls), then `canvas.draw()`.
    - **Spawn loop** (`game.generateItems()`, `setInterval` every `game.ms`): adds an item. 20% are faux. Speed depends on score: >10 gives gravity 1.5, >20 adds wind ±1, >30 gives wind ±1.5.
-4. Clicking hit-tests items (`canvas.checkClick`) and removes the clicked one. Pumpkins give +1 point, faux items −1.
+4. Clicking hit-tests items newest-first (`canvas.checkClick`, the one drawn on top) and removes the clicked one. Pumpkins give +1 point, faux items −1.
 5. A non-faux item falling past the bottom costs 1 life. You start with 3 lives.
-6. The game ends when lives hit 0, or when a click leaves points ≤ 0. `endGame` clears both loops, removes the canvas and controls, and calls `renderEndGame(score)`, which has a "Play Again!" button.
-7. Pause clears the interval and cancels the animation frame. Resume restarts both.
+6. The game ends when lives hit 0. Points never go below 0. `endGame` clears both loops, removes the canvas and controls, and calls `renderEndGame(score)`, which has a "Play Again!" button.
+7. Pause clears the interval and cancels the animation frame. Resume restarts both. Hiding the tab pauses the game; the player resumes it.
 
 ## Conventions and quirks
 
@@ -68,10 +68,6 @@ All scripts share the global scope; there are no imports. Every script tag is `a
 
 - `getRandom(min, max)` excludes `max`, so `getAsset` never picks `016.png` or `007-faux.png`.
 - `Item.setXY` overlap check computes the Y overlap from `x` coordinates, and its condition is inverted, so spawn de-overlapping doesn't really work.
-- Faux items that fall off the bottom are never removed from `canvas.items`, so the array grows over a long game.
-- `window.onresize` assigns `canvas.width`/`height` on the `Canvas` wrapper, which only has getters. The assignment silently does nothing, so the canvas doesn't resize.
-- Speed-up (`ms` decreases past 40 points) only takes effect when `generateItems` is called again, i.e. after a pause/resume.
 - `Game` constructor sets `_paused`, but the getter and setter use `_pause`.
-- Clicking a faux item at 0 points ends the game immediately.
 - Unused: `renderModal`, `suffleArray`, `css/fire.css`, all sounds, and the "Hall of Fame" link (`href="#"`). The README "How to play" section is empty.
 - An earlier commit added Google Analytics, but the 2.0 refactor dropped it.
