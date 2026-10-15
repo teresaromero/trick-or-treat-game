@@ -14,6 +14,11 @@ class Game {
 
   set ms(ms) {
     this._ms = Math.max(MIN_MS, this._ms - ms);
+    // The spawn timer keeps the interval it was created with, so restart it.
+    if (this._interval !== undefined && !this.pause) {
+      clearInterval(this._interval);
+      this.generateItems();
+    }
   }
 
   get ms() {

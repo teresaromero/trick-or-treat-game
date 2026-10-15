@@ -372,6 +372,16 @@ describe("spawn speed", () => {
     scorePumpkins(g.score() + 1);
   }
 
+  test("items spawn faster as the score climbs", async () => {
+    await playing({ random: PUMPKIN, viewport: TALL });
+    const slow = spawnedIn(6000);
+
+    scorePumpkins(60);
+
+    // Without waiting for a pause: the new speed applies right away.
+    expect(spawnedIn(6000)).toBeGreaterThan(slow);
+  });
+
   test("going back and forth over a score does not keep speeding the game up", async () => {
     await playing({ random: PUMPKIN, viewport: TALL });
     scorePumpkins(45);
