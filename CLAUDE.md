@@ -31,7 +31,6 @@ The tests are **black-box on purpose**, so they survive the planned refactor:
 ```
 index.html        page shell: header/nav, <main>, footer; loads all scripts as globals
 css/index.css     theme (black background, #f27503 orange, fonts)
-css/fire.css      .mo-fire flame animation, currently unused
 js/utils.js       DOM rendering (intro, controls, canvas, end screen), getRandom, getAsset
 js/canvas.js      class Canvas: wraps the <canvas>, owns the items array, move/draw/hit-test
 js/item.js        class Item: position, size, image, points, lifes, faux, gravity, wind
@@ -67,5 +66,5 @@ All scripts share the global scope; there are no imports. Every script tag is `a
 ## Known bugs and loose ends (left as-is unless asked)
 
 - `getRandom(min, max)` excludes `max`; callers pass `max` one past the last wanted value.
-- Unused: `renderModal`, `suffleArray`, `css/fire.css`, all sounds, and the "Hall of Fame" link (`href="#"`). The README "How to play" section is empty.
+- Unused: all sounds in `assets/sound/` (kept for the 3.0 revamp).
 - An earlier commit added Google Analytics, but the 2.0 refactor dropped it.

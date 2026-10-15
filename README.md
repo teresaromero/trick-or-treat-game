@@ -23,8 +23,7 @@ I like to come back to it every now and then as my career moves forward. Each vi
 
 ### ☠️ Game over
 
-- You run out of lives, or
-- a click on a faux item drops your score to 0 or below.
+- You run out of lives. (Your score never drops below 0.)
 
 Then press **Play Again!** for another round. 🔁
 
