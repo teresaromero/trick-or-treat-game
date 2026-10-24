@@ -1,39 +1,60 @@
-# 🎃 Trick or Treat 2.0 👻
+# 🎃 Trick or Treat 👻
 
 > Pumpkins are falling from the sky! Catch them before they hit the ground, and don't get fooled by the tricks. 🦇
 
 **▶️ Play it now:** https://teresaromero.github.io/trick-or-treat-game
 
-Trick or Treat is a spooky little browser click game. It was my first coding project, built for the Game Project of the **Ironhack Part-Time Web Development Bootcamp** in Madrid 🇪🇸 (October 2018). In September 2020 it got a "2.0" refactor. 🧙‍♀️
+Trick or Treat is a spooky little browser click game. It was my first coding project, built for the Game Project of the **Ironhack Part-Time Web Development Bootcamp** in Madrid 🇪🇸 (October 2018). In September 2020 it got a "2.0" refactor, and in 2026 a "3.0" one: a new look, levels, sound and a small site around the game. 🧙‍♀️
 
 I like to come back to it every now and then as my career moves forward. Each visit, I apply what I've learned since: cleaner code, tests, fixes for old bugs. It's my way of seeing how far I've come. 🌱
 
-🤖 **Coming up: 3.0!** The game is getting a revamp with today's AI tooling. 🪄
+🤖 3.0 was built with today's AI tooling. 🪄
 
 ---
 
 ## 🕹️ How to play
 
-1. Press **Go!** to start the night. 🌙
+1. Press **Tap to start** (or click anywhere on the start board) to start the night. 🌙
 2. Pumpkins 🎃 and *faux* Halloween objects 🕸️ fall down the screen.
-3. **Click the pumpkins** to collect them: each one gives you **+1 point**. ⭐
+3. **Click or tap the pumpkins** to collect them: each one gives you **+1 point**. ⭐
 4. **Avoid the faux items!** Clicking one takes away **1 point**. 💀
 5. **Don't let pumpkins reach the bottom.** Each pumpkin you miss costs **1 life**, and you start with **3 lives**. ❤️❤️❤️
-6. Need a break? Hit **pause** ⏸️ and resume when you're ready.
+6. **Catch 10 pumpkins in a row** and a lost heart comes back. 💗
+
+At 0 points everything that falls is a pumpkin, and fakes cost nothing, so you can't lose points you don't have.
+
+### ⌨️ Controls
+
+| Key | What it does |
+|---|---|
+| Click / tap | Catch an item |
+| `P` or `Space` | Pause and resume (hiding the tab pauses too) |
+| `Esc` | Ask to quit (a second `Esc` keeps playing); on the game over screen, back to the start |
+| `M` | Sound on or off (remembered) |
+
+The board is pointer-only: catching needs a mouse or a finger.
 
 ### ☠️ Game over
 
 - You run out of lives. (Your score never drops below 0.)
+- The card shows your score, level, best score and your run (caught, faux hit, best streak).
 
-Then press **Play Again!** for another round. 🔁
+Then press **Play Again!** for another round, or **Home** to go back to the start. 🔁
 
 ### 🌪️ It gets harder
 
-| Score | What happens |
-|---|---|
-| > 10 | Pumpkins fall faster 💨 |
-| > 20 | The wind starts blowing them sideways 🍂 |
-| > 30 | The wind gets stronger 🌪️ |
+There are 9 levels, one every 10 points. Levels only go up: a fake can cost you points but not a level.
+
+| Level | Score | What happens |
+|---|---|---|
+| 1 | 0 | Pumpkins fall slowly, one a second |
+| 2 | 10 | Pumpkins fall faster 💨 |
+| 3 | 20 | The wind starts blowing them sideways 🍂 |
+| 4 | 30 | A storm is brewing: stronger wind 🌪️ |
+| 5–8 | 40–70 | The witches get mad: faster and more pumpkins 🧙‍♀️ |
+| 9 | 80 | Witching hour: max level 🌕 |
+
+Every number lives in `js/config.js`.
 
 ---
 
@@ -41,10 +62,11 @@ Then press **Play Again!** for another round. 🔁
 
 - 🧱 Plain **HTML**, **CSS** and vanilla **ES6 JavaScript** (classes, getters and setters)
 - 🖼️ The HTML5 **`<canvas>`** for the falling items
-- 🎨 **Bootstrap** and **Feather icons** from CDNs
-- 🔤 Google Fonts: **Creepster** for the spooky header and **Arvo** for the body text
+- 🔤 Self-hosted fonts: **Creepster** for the spooky header and **Arvo** for the body text
+- 🔊 Plain `Audio` elements for the sound, so it works from `file://` too
+- 📊 [GoatCounter](https://www.goatcounter.com) for anonymous, cookieless visit and game-action counts (see `privacy.html`; it ignores `localhost`)
 
-There's no build step and no runtime dependencies. It's just a static site. ✨
+There's no build step and no runtime dependencies of our own. It's just a static site, deployed to GitHub Pages only after both test suites pass. ✨
 
 ## 🏚️ Run it locally
 
@@ -77,15 +99,27 @@ The tests are black-box: they play the game like a player would (clicking, readi
 ## 🗂️ Project structure
 
 ```
-index.html        🏠 page shell
-css/              🎨 theme (black + #f27503 orange)
-js/utils.js       🧩 DOM rendering (intro, controls, canvas, end screen)
-js/canvas.js      🖼️ Canvas: owns the items, moves, draws and hit-tests them
+index.html        🏠 the game page (entry point)
+leaderboard.html, how-to-play.html, about.html, privacy.html, terms.html
+                  📄 static content pages, same bottom bar
+css/              🎨 theme (black + #f27503 orange, night-sky board)
+js/config.js      ⚙️ every tuning constant (levels, lives, timings, sizes)
+js/icons.js       🔣 inline SVG icons
+js/assets.js      🖼️ sprite names, image cache, preload
+js/storage.js     💾 best score and mute choice in localStorage
+js/analytics.js   📊 anonymous GoatCounter events
+js/sound.js       🔊 effects, looping music, mute
 js/item.js        🎃 Item: position, size, image, gravity and wind
-js/game.js        🎮 Game: lives, points, spawn speed and difficulty
-js/index.js       🚪 entry point and game loop
-assets/img/       🖌️ pumpkins (NNN.png) and faux items (NNN-faux.png)
-assets/sound/     🔊 sound effects and music (not wired up yet)
+js/game.js        🎮 Game: lives, points, level and streak (state only)
+js/board.js       🕸️ Board: owns the items, moves, draws, spawns and hit-tests them
+js/hud.js         ❤️ HUD: controls, score, level and lives
+js/effects.js     ✨ popups, level-up banner and witch, board layers
+js/screens.js     🧩 start board, pause overlay, quit prompt and game over
+js/session.js     🔁 Session: one running game (loops, input, pause, end)
+js/main.js        🚪 entry point
+assets/img/       🖌️ pumpkins (NNN.png), faux items (NNN-faux.png), social image
+assets/sound/     🔊 sound effects and music
+docs/             📚 3.0 tracker, design system, launch review
 test/  e2e/       🧪 test suites
 ```
 
@@ -93,12 +127,10 @@ test/  e2e/       🧪 test suites
 
 ## 🙏 Credits for resources
 
-- 🎃 Pumpkin icons designed by [Good Ware](https://www.flaticon.com/authors/good-ware) from [Flaticon](https://www.flaticon.com/)
-- 🕸️ Misc object icons designed by [Mavadee](https://www.flaticon.com/authors/mavadee) from [Flaticon](https://www.flaticon.com/)
-- ❤️ Life and score icons designed by [Smashicons](https://www.flaticon.com/authors/smashicons) from [Flaticon](https://www.flaticon.com/)
-- 🌌 Background pattern from Free Vectors by [Vecteezy](https://www.vecteezy.com)
-- 🎵 Music by [WaveToys](https://wavetoysmusic.com/) (Royalty Free Background Music For Videos)
-- 🔔 Sound effects from [ZapSplat](https://www.zapsplat.com)
+- 🎃 <a href="https://www.flaticon.com/free-icons/pumpkin" title="pumpkin icons">Pumpkin icons created by Good Ware - Flaticon</a>
+- 🕸️ <a href="https://www.flaticon.com/free-icons/halloween" title="halloween icons">Halloween icons created by mavadee - Flaticon</a>
+- 🧙‍♀️ Witch silhouette by [Freepik](https://www.magnific.com/free-vector/halloween-witch-silhuette_3126056.htm)
+- 🔣 Interface icons from [Lucide](https://lucide.dev) and the pumpkin from MingCute, via [Iconify](https://iconify.design)
 
 ---
 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://teresaromero.github.io/trick-or-treat-game/sitemap.xml

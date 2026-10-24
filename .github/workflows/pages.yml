@@ -1,9 +1,9 @@
 name: Test and deploy to GitHub Pages
 
 on:
-  push:
-    branches: [master]
   pull_request:
+  release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -41,9 +41,9 @@ jobs:
           retention-days: 7
 
   deploy:
-    # The gate: only master, and only after every test passed.
+    # The gate: only a published GitHub release (a tag), and only after every test passed.
     needs: test
-    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -56,7 +56,7 @@ jobs:
       # Publish only what the game needs, not tests, tooling or docs.
       - run: |
           mkdir _site
-          cp -r index.html css js assets _site/
+          cp -r *.html robots.txt sitemap.xml THIRD-PARTY.md css js assets _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

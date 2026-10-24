@@ -1,98 +1,99 @@
-const MIN_MS = 200;
-
+// The rules and the score of one game: lives, points, level and streak.
+// Pure state: no DOM and no timers. The caller (Session) shows what happened.
 class Game {
-  constructor(canvas, lifes = 3, points = 0) {
-    this._lifes = lifes;
-    this._points = points;
-    this.canvas = canvas;
-    this._paused = false;
-    this._animation = undefined;
-    this._interval = undefined;
-    this._ms = 1000;
-    this._milestone = 40;
+  // `pace` scales the speed of the whole game: 1 is normal, less is slower.
+  constructor({ pace = 1 } = {}) {
+    this.pace = pace;
+    this.lives = START_LIVES;
+    this.points = 0;
+    this.level = 0;
+    this.streak = 0;
+    this.caught = 0;
+    // Faux items clicked, even at 0 points where they cost nothing.
+    this.fauxHit = 0;
+    this.bestStreak = 0;
+    this.healed = 0;
   }
 
-  set ms(ms) {
-    this._ms = Math.max(MIN_MS, this._ms - ms);
-    // The spawn timer keeps the interval it was created with, so restart it.
-    if (this._interval !== undefined && !this.pause) {
-      clearInterval(this._interval);
-      this.generateItems();
+  get isOver() {
+    return this.lives <= 0;
+  }
+
+  // Milliseconds between spawns at the current level.
+  get spawnMs() {
+    return LEVELS[this.level].ms / this.pace;
+  }
+
+  // Notches filled toward the next level, or undefined on the last one.
+  get levelProgress() {
+    if (this.level === LEVELS.length - 1) return undefined;
+    return Math.max(0, this.points - LEVELS[this.level].at);
+  }
+
+  // Numbers for the game over card.
+  get stats() {
+    return {
+      score: this.points,
+      level: this.level + 1,
+      caught: this.caught,
+      fauxHit: this.fauxHit,
+      bestStreak: this.bestStreak,
+    };
+  }
+
+  // Points never go below 0. Returns how many levels were gained: levels
+  // only go up, so a faux item can't take you back one.
+  addPoints(delta) {
+    this.points = Math.max(0, this.points + delta);
+    let gained = 0;
+    while (
+      this.level < LEVELS.length - 1 &&
+      this.points >= LEVELS[this.level + 1].at
+    ) {
+      this.level++;
+      gained++;
     }
+    return gained;
   }
 
-  get ms() {
-    return this._ms;
+  loseLife() {
+    this.lives--;
   }
 
-  set interval(callback) {
-    this._interval = callback;
+  // Pumpkins caught in a row; returns the streak so far.
+  catchPumpkin() {
+    this.caught++;
+    this.bestStreak = Math.max(this.bestStreak, ++this.streak);
+    return this.streak;
   }
 
-  get interval() {
-    return this._interval;
-  }
-
-  set animation(a) {
-    this._animation = a;
-  }
-
-  get animation() {
-    return this._animation;
-  }
-
-  set pause(value) {
-    this._paused = value;
-  }
-
-  get pause() {
-    return this._paused;
-  }
-
-  get lifes() {
-    return this._lifes;
-  }
-
-  set lifes(l) {
-    this._lifes -= l;
-    document.getElementById("lifeCount").innerHTML = this.lifes;
-  }
-
-  get points() {
-    return this._points;
-  }
-
-  set points(p) {
-    this._points = Math.max(0, this._points + p);
-    document.getElementById("pointCount").innerHTML = this.points;
-    // Speed up once per new multiple of 5, not every time the score lands on one.
-    if (this.points > this._milestone && this.points % 5 === 0) {
-      this._milestone = this.points;
-      this.ms = 100;
+  // Every HEAL_STREAK pumpkins in a row bring back a lost heart; returns
+  // whether one came back. Call it after catchPumpkin().
+  healOnStreak() {
+    if (this.lives >= START_LIVES || this.streak % HEAL_STREAK !== 0) {
+      return false;
     }
+    this.lives++;
+    this.healed++;
+    return true;
   }
 
-  generateItems() {
-    this.interval = setInterval(() => {
-      const faux = Math.random() >= 0.8;
-      let wind;
-      let gravity;
+  // A faux click or a lost pumpkin resets the streak.
+  hitFaux() {
+    this.fauxHit++;
+    this.breakStreak();
+  }
 
-      if (this.points > 30) {
-        wind = Math.random() >= 0.5 ? 1.5 : -1.5;
-        gravity = 1.5;
-      } else if (this.points <= 30 && this.points > 20) {
-        wind = Math.random() >= 0.5 ? 1 : -1;
-        gravity = 1.5;
-      } else if (this.points <= 20 && this.points > 10) {
-        wind = 0;
-        gravity = 1.5;
-      } else {
-        wind = 0;
-        gravity = 1;
-      }
+  breakStreak() {
+    this.streak = 0;
+  }
 
-      this.canvas.newItem({ faux, wind, gravity });
-    }, this.ms);
+  // What the next item should look like, from the current level.
+  nextSpawn() {
+    // Nothing to lose at 0 points, so faux items only start once you score.
+    const faux = this.points > 0 && Math.random() >= 1 - FAUX_CHANCE;
+    const { gravity, wind: windSpeed } = LEVELS[this.level];
+    const wind = windSpeed && Math.random() < 0.5 ? -windSpeed : windSpeed;
+    return { faux, wind: wind * this.pace, gravity: gravity * this.pace };
   }
 }

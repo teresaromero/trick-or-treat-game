@@ -1,108 +1,73 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
-  <!--<![endif]-->
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- HTML Meta Tags -->
-    <title>Trick or Treat 2.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#000000" />
+    <title>Trick or Treat</title>
     <meta
       name="description"
-      content="Play and enjoy scoring to save the jack-o'-lantern!!! 
-HTML5 game for Ironhack first module project."
+      content="Catch the falling pumpkins, dodge the fakes and make the highest score!"
     />
-
-    <!-- Google / Search Engine Tags -->
-    <meta itemprop="name" content="Trick or Treat 2.0" />
-    <meta
-      itemprop="description"
-      content="Play and enjoy scoring to save the jack-o'-lantern!!! 
-HTML5 game for Ironhack first module project."
-    />
-    <meta itemprop="image" content="https://teresaromero.github.io/trick-or-treat-game/assets/img/meta.png" />
-
-    <!-- Facebook Meta Tags -->
-    <meta
-      property="og:url"
-      content="https://teresaromero.github.io/trick-or-treat-game"
-    />
+    <link rel="canonical" href="https://teresaromero.github.io/trick-or-treat-game/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Trick or Treat 2.0" />
+    <meta property="og:site_name" content="Trick or Treat" />
+    <meta property="og:url" content="https://teresaromero.github.io/trick-or-treat-game/" />
+    <meta property="og:title" content="Trick or Treat" />
     <meta
       property="og:description"
-      content="Play and enjoy scoring to save the jack-o'-lantern!!! 
-HTML5 game for Ironhack first module project."
+      content="Catch the falling pumpkins, dodge the fakes and make the highest score!"
     />
     <meta property="og:image" content="https://teresaromero.github.io/trick-or-treat-game/assets/img/meta.png" />
-
-    <!-- Twitter Meta Tags -->
+    <meta property="og:image:alt" content="Trick or Treat: pumpkins and Halloween objects falling over a night sky." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Trick or Treat 2.0" />
-    <meta
-      name="twitter:description"
-      content="Play and enjoy scoring to save the jack-o'-lantern!!! 
-HTML5 game for Ironhack first module project."
-    />
-    <meta name="twitter:image" content="https://teresaromero.github.io/trick-or-treat-game/assets/img/meta.png" />
-
-    <!-- Meta Tags Generated via http://heymeta.com -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-      crossorigin="anonymous"
-    />
-
+    <link rel="preload" href="./assets/fonts/creepster-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="./assets/img/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="./assets/img/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png" />
     <link rel="stylesheet" href="./css/index.css" />
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
   </head>
-  <body class="d-flex h-100 text-center text-white bg-dark">
-    <!--[if lt IE 7]>
-      <p class="browsehappy">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="#">upgrade your browser</a> to improve your experience.
-      </p>
-    <![endif]-->
-    <div id="main-vp" class="d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header class="mb-auto">
+  <body>
+    <a class="skip-link" href="#main">Skip to game</a>
+    <div id="main-vp">
+      <header>
         <div>
-          <h1 class="float-md-center mb-0">Trick or Treat ? 🎃</h1>
-          <nav
-            class="nav nav-masthead justify-content-center float-md-right"
-          ></nav>
+          <div class="hud" role="group" aria-label="Game status"></div>
         </div>
       </header>
 
-      <main class="justify-content-center align-items-center bg-dark"></main>
+      <main id="main" tabindex="-1"></main>
 
-      <footer class="mt-auto text-white-50">
-        <p>
-          Coded with <span class="pr-2">❤️</span>by 
-          <a
-            href="https://bit.ly/teresaromero"
-            target="_blank"
-            rel="noopener noreferrer"
-            >me!</a
-          >
-        </p>
-      </footer>
+      <nav class="site-nav" aria-label="Site">
+        <a class="site-logo" href="./"><img src="./assets/img/001.png" alt="" width="28" height="28" /><span translate="no">Trick or Treat</span></a>
+        <ul>
+          <li><a href="./" aria-current="page">Game</a></li>
+          <li><a href="./how-to-play.html">How to play</a></li>
+          <li><a href="./about.html">About</a></li>
+        </ul>
+        <ul class="site-nav-end">
+          <li data-sound-slot></li>
+          <li><a href="./privacy.html">Privacy</a></li>
+          <li><a href="./terms.html">Terms</a></li>
+        </ul>
+      </nav>
     </div>
 
-    <script src="./js/canvas.js" async defer></script>
-    <script src="./js/game.js" async defer></script>
-    <script src="./js/item.js" async defer></script>
-    <script src="./js/utils.js" async defer></script>
-    <script src="./js/index.js" async defer></script>
-
-    <script>
-      feather.replace();
-    </script>
-
-    <!-- JavaScript and dependencies -->
+    <script src="./js/config.js" defer></script>
+    <script src="./js/icons.js" defer></script>
+    <script src="./js/assets.js" defer></script>
+    <script src="./js/storage.js" defer></script>
+    <script src="./js/analytics.js" defer></script>
+    <script src="./js/sound.js" defer></script>
+    <script src="./js/item.js" defer></script>
+    <script src="./js/game.js" defer></script>
+    <script src="./js/board.js" defer></script>
+    <script src="./js/hud.js" defer></script>
+    <script src="./js/effects.js" defer></script>
+    <script src="./js/screens.js" defer></script>
+    <script src="./js/session.js" defer></script>
+    <script src="./js/main.js" defer></script>
+    <script data-goatcounter="https://trick-or-treat-game.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   </body>
 </html>
