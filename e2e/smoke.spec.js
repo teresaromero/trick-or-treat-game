@@ -108,6 +108,60 @@ test("losing all lives ends the game and Play Again restarts", async ({
   await expect(page.getByRole("img", { name: "3 lives" })).toBeVisible();
 });
 
+test("the game over card sits above the board, so taps reach its buttons", async ({
+  page,
+}) => {
+  await start(page);
+  await page.clock.runFor(120_000);
+  await expect(page.getByText("Game over!")).toBeVisible();
+
+  // Safari stacked the canvas over the card: it stayed in the DOM but
+  // unpainted, and the page looked frozen. Playwright's WebKit never shows
+  // it (only the real browser does), so the card must also claim its place
+  // in the stacking order instead of relying on source order.
+  const card = await page.evaluate(() => {
+    const end = document.querySelector("#end");
+    const { x, y, width, height } = end
+      .querySelector(".panel")
+      .getBoundingClientRect();
+    const { position, zIndex } = getComputedStyle(end);
+    return {
+      position,
+      zIndex,
+      topmost: document
+        .elementFromPoint(x + width / 2, y + height / 2)
+        .closest("#end")?.id,
+    };
+  });
+  expect(card.topmost).toBe("end");
+  expect(card.position).not.toBe("static");
+  expect(card.zIndex).not.toBe("auto");
+});
+
+test("the pause overlay sits above the board, so a tap resumes", async ({
+  page,
+}) => {
+  await start(page);
+  await page.clock.runFor(FIRST_PUMPKIN);
+  await page.keyboard.press("p");
+  await expect(page.locator("#paused")).toBeVisible();
+
+  // Same Safari stacking bug as the game over card.
+  const overlay = await page.evaluate(() => {
+    const el = document.querySelector("#paused");
+    const { x, y, width, height } = el.getBoundingClientRect();
+    const { position, zIndex } = getComputedStyle(el);
+    return {
+      position,
+      zIndex,
+      topmost: document.elementFromPoint(x + width / 2, y + height / 2).id,
+    };
+  });
+  expect(overlay.topmost).toBe("paused");
+  expect(overlay.position).not.toBe("static");
+  expect(overlay.zIndex).not.toBe("auto");
+});
+
 test("the game over card fits a phone screen without scrolling", async ({
   page,
 }) => {

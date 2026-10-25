@@ -653,6 +653,8 @@ canvas.anim-hurt {
 
 /* Pause overlay */
 .paused {
+  position: relative;
+  z-index: 1;
   align-self: stretch;
   justify-self: stretch;
   border: 0;
@@ -752,6 +754,9 @@ a:focus-visible,
 
 /* Game over: dims the frozen board, the card sits on top of it */
 .end-screen {
+  /* Safari paints the canvas over a later sibling that only relies on source order */
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   align-self: stretch;
